@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import history from "../../history";
 
 
 const useStyles = makeStyles((theme) =>({
@@ -20,8 +21,9 @@ const useStyles = makeStyles((theme) =>({
     },
     cardLogin:{
         /* Parent background + Gaussian blur */
-        backdropFilter: "blur(20px)",
+        backdropFilter: "blur(70px)",
         webkitBackdropFilter: "blur(20px)",
+        backgroundColor:"transparent !important",
 
         /* Exclusion blend */
         backgroundBlendMode: "exclusion",
@@ -110,7 +112,7 @@ const Login = ({classes}) =>{
                                 <Form.Control size="lg" type="text" placeholder="" type="password"/>
                             </Form.Group>
                             <div className={classes.loginButtonDiv}>
-                                <Button variant="danger" className={classes.button}>Login</Button>
+                                <Button variant="danger" className={classes.button} onClick={() => history.push('/home')}>Login</Button>
                             </div>
                         </div>
                     </div>
