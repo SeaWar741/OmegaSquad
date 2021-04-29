@@ -8,6 +8,7 @@ import Panel from "../Panel";
 
 import { InlineIcon } from '@iconify/react';
 import sortRight from '@iconify/icons-icons8/sort-right';
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip, Legend,ResponsiveContainer } from 'recharts';
 
 
@@ -67,16 +68,22 @@ const Left = ({classes}) =>{
                     <Col>
                         <div className={classes.chartDiv}>
                             <h1 style={{paddingBottom:"1rem"}}>
-                                <InlineIcon icon={sortRight}/>
-                                Horas de juego:
+                                <HourglassEmptyIcon style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                 Horas de juego:
                             </h1>
                             <div style={{ width: '100%', height: 300 }}>
                                 <ResponsiveContainer>
                                     <BarChart data={data}>
+                                        <defs>
+                                            <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stopColor="#007db1" stopOpacity={1}/>
+                                            <stop offset="48%" stopColor="#0069ad" stopOpacity={1}/>
+                                            </linearGradient>
+                                        </defs>
                                         <XAxis dataKey="name" />
                                         <Tooltip />
                                         <Legend />
-                                        <Bar dataKey="HorasDeJuego" fill="#005BAA" />
+                                        <Bar dataKey="HorasDeJuego" fill="url(#colorHours)" />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>

@@ -9,7 +9,7 @@ import Left from "./left";
 import { InlineIcon } from '@iconify/react';
 import sortRight from '@iconify/icons-icons8/sort-right';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer,Legend  } from 'recharts';
-
+import RecordVoiceOverOutlinedIcon from '@material-ui/icons/RecordVoiceOverOutlined';
 
 const useStyles = makeStyles((theme) =>({
     mainDiv:{
@@ -27,38 +27,38 @@ const useStyles = makeStyles((theme) =>({
 
 const data = [
     {
-      "name": "Page A",
-      "uv": 4000,
+      "name": "Clase A",
+      "buenas": 4000,
       "pv": 2400
     },
     {
-      "name": "Page B",
-      "uv": 3000,
+      "name": "Clase B",
+      "buenas": 3000,
       "pv": 1398
     },
     {
-      "name": "Page C",
-      "uv": 2000,
+      "name": "Clase C",
+      "buenas": 2000,
       "pv": 9800
     },
     {
-      "name": "Page D",
-      "uv": 2780,
+      "name": "Clase D",
+      "buenas": 2780,
       "pv": 3908
     },
     {
-      "name": "Page E",
-      "uv": 1890,
+      "name": "Clase E",
+      "buenas": 1890,
       "pv": 4800
     },
     {
-      "name": "Page F",
-      "uv": 2390,
+      "name": "Clase F",
+      "buenas": 2390,
       "pv": 3800
     },
     {
-      "name": "Page G",
-      "uv": 3490,
+      "name": "Clase G",
+      "buenas": 3490,
       "pv": 4300
     }
 ]
@@ -79,24 +79,27 @@ const Home = ({classes}) =>{
                         <Container>
                             <div>
                                 <h1 style={{paddingBottom:"1rem"}}>
-                                    <InlineIcon icon={sortRight}/>
+                                    <RecordVoiceOverOutlinedIcon style={{ fontSize: 50,marginRight:"0.5rem" }}/>
                                     Precisión de clasificación
                                 </h1>
                                 <div style={{ width: '100%', height: 600}}>
                                         <BarChart 
                                             width={600} 
-                                            height={300} 
+                                            height={600} 
                                             data={data} 
                                             layout="vertical"
-                                            margin={{top: 5, right: 30, left: 20, bottom: 5}}
-                                            >
+                                        >
+                                             <defs>
+                                                <linearGradient id="buenasColor" x1="1" y1="0" x2="0" y2="0">
+                                                <stop offset="0%" stopColor="#FF9900" stopOpacity={1}/>
+                                                <stop offset="48%" stopColor="#FF390E" stopOpacity={1}/>
+                                                </linearGradient>
+                                            </defs>
                                             <XAxis type="number"/>
                                             <YAxis type="category" dataKey="name" />
-                                            <CartesianGrid strokeDasharray="3 3"/>
                                             <Tooltip/>
                                             <Legend />
-                                            <Bar dataKey="pv" fill="#8884d8" />
-                                            <Bar dataKey="uv" fill="#82ca9d" />
+                                            <Bar dataKey="buenas" fill="#8884d8" fill="url(#buenasColor)"/>
                                         </BarChart>
                                 </div>
                             </div>
