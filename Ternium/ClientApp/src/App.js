@@ -8,6 +8,7 @@ import history from './history';
 
 import Login from './components/Login/';
 import Home  from './components/Home';
+import Stats from './components/Stats';
 
 import './custom.css'
 
@@ -21,6 +22,7 @@ export default class App extends Component {
           <Switch>
             <Route exact path='/' component={Login} />
             <Route path='/home' component={Home} />
+            <Route path='/stats' component={Stats} />
             <Route path='/counter' component={Counter} />
             <Route path='/fetch-data' component={FetchData} />
           </Switch>
