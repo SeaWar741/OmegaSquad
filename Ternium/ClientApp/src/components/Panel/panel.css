@@ -23,15 +23,3 @@
   circle {
     fill: #3DB8A4;
   }
-  
-  text { 
-    fill: #fff;
-    font-size: 4rem;
-    font-family: sans-serif;
-  }
-  .makeStyles-drawer-2{
-      background-color: transparent !important;
-  }
-  .makeStyles-drawer-3{
-    background-color: transparent !important;
-  }

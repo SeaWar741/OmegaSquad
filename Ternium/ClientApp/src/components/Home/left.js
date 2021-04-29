@@ -8,7 +8,7 @@ import Panel from "../Panel";
 
 import { InlineIcon } from '@iconify/react';
 import sortRight from '@iconify/icons-icons8/sort-right';
-
+import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip, Legend,ResponsiveContainer } from 'recharts';
 
 
 const useStyles = makeStyles((theme) =>({
@@ -22,10 +22,39 @@ const useStyles = makeStyles((theme) =>({
     playCard:{
         background: "linear-gradient(66deg, rgba(153,250,151,1) 4%, rgba(0,179,81,1) 100%)",
         color:"white",
-        padding:"2srem",
-        textAlign:"center"
+        padding:"2rem",
+        textAlign:"center",
+    },
+    chartDiv:{
+        backgroundColor:"white",
+        padding:"2rem",
+        pointer:"pointer"
     }
 }))
+
+const data = [
+    {
+      "name": "Lunes",
+      "HorasDeJuego": 4000,
+    },
+    {
+      "name": "Martes",
+      "HorasDeJuego": 3000,
+    },
+    {
+      "name": "Miercoles",
+      "HorasDeJuego": 2000,
+    },
+    {
+      "name": "Jueves",
+      "HorasDeJuego": 2780,
+    },
+    {
+        "name": "Viernes",
+        "HorasDeJuego": 2780,
+    }
+]
+
 
 const Left = ({classes}) =>{
     classes = useStyles();
@@ -36,15 +65,29 @@ const Left = ({classes}) =>{
             <Container>
                 <Row>
                     <Col>
-                        <Card>
-                            <Card.Body>This is some text within a card body.</Card.Body>
-                        </Card>
+                        <div className={classes.chartDiv}>
+                            <h1 style={{paddingBottom:"1rem"}}>
+                                <InlineIcon icon={sortRight}/>
+                                Horas de juego:
+                            </h1>
+                            <div style={{ width: '100%', height: 300 }}>
+                                <ResponsiveContainer>
+                                    <BarChart data={data}>
+                                        <XAxis dataKey="name" />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="HorasDeJuego" fill="#005BAA" />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                            
+                        </div>
                     </Col>
                 </Row>
-                <Row style={{paddingTop:"10rem"}}>
+                <Row style={{paddingTop:"2rem",pointer:"drag"}}>
                     <Col>
                         <div className={classes.playCard}>
-                            <h1 style={{fontSize:"100px"}}>
+                            <h1 style={{fontSize:"8vw",paddingTop:"5vh",paddingBottom:"5vh"}}>
                                 <InlineIcon icon={sortRight}/>
                                 Play
                             </h1>

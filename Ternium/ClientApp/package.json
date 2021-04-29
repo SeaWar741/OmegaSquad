@@ -19,6 +19,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.4",
     "reactstrap": "^8.4.1",
+    "recharts": "^2.0.9",
     "rimraf": "^2.6.2"
   },
   "devDependencies": {
