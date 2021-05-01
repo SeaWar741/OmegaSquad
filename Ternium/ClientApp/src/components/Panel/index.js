@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 
@@ -15,6 +13,7 @@ import controller from '@iconify/icons-icons8/controller';
 import barChart  from '@iconify/icons-icons8/bar-chart';
 import services from '@iconify/icons-icons8/services';
 import trophy from '@iconify/icons-icons8/trophy';
+import { useHistory } from 'react-router-dom';
 
 import './panel.css';
 
@@ -66,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(6),
+    
   },
   list:{
     backgroundColor:"transparent !important",
@@ -79,6 +79,16 @@ const useStyles = makeStyles((theme) => ({
     color:"white",
     fontSize:"3vw",
     fontWeight:"bold"
+  },
+  buttonMain:{
+    textAlign:"center",
+    marginTop:"2rem"
+  },
+  buttons:{
+    fontSize: 60,
+    margin: '0 auto',
+    display: "flex",
+    color:"white"
   }
 }));
 
@@ -93,32 +103,34 @@ function Panel(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const history = useHistory();
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />
         <List>
-            <ListItem button key={"User"} style={{textAlign:"center",marginTop:"2rem"}}>
+            <ListItem button key={"User"} className={classes.buttonMain}>
                 <div className={classes.circle}>
                     <div style={{position: "relative", top: "15%"}}>
                         {nameLetter}
                     </div>
                 </div>
             </ListItem>
-            <ListItem button key={"User"} style={{textAlign:"center",marginTop:"3rem"}}>
-                 <InlineIcon icon={home} style={{ fontSize: 60,margin: '0 auto', display: "flex", color:"white"}} />
+            <ListItem button key={"Home"} style={{textAlign:"center",marginTop:"3rem"}} onClick={()=> history.push("/home")}>
+                 <InlineIcon icon={home} className={classes.buttons}/>
             </ListItem>
-            <ListItem button key={"Home"} style={{textAlign:"center",marginTop:"2rem"}}>
-                 <InlineIcon icon={controller} style={{ fontSize: 60,margin: '0 auto', display: "flex", color:"white"}} />
+            <ListItem button key={"Game"} className={classes.buttonMain} onClick={()=> history.push("/game")}>
+                 <InlineIcon icon={controller} className={classes.buttons}/>
             </ListItem>
-            <ListItem button key={"Game"} style={{textAlign:"center",marginTop:"2rem"}}>
-                 <InlineIcon icon={barChart } style={{ fontSize: 60,margin: '0 auto', display: "flex", color:"white"}} />
+            <ListItem button key={"stats"} className={classes.buttonMain} onClick={()=> history.push("/stats")}>
+                 <InlineIcon icon={barChart } className={classes.buttons}/>
             </ListItem>
-            <ListItem button key={"Stats"} style={{textAlign:"center",marginTop:"2rem"}}>
-                 <InlineIcon icon={trophy} style={{ fontSize: 60,margin: '0 auto', display: "flex", color:"white"}} />
+            <ListItem button key={"Leaderboard"} className={classes.buttonMain}  onClick={()=> history.push("/leaderboard")}>
+                 <InlineIcon icon={trophy} className={classes.buttons}/>
             </ListItem>
 
-            <ListItem button key={"Leadboard"} style={{textAlign:"center",marginTop:"4rem",position: "fixed", bottom: "0"}}>
-                 <InlineIcon icon={services} style={{ fontSize: 60,margin: '0 auto', display: "flex", color:"white"}} />
+            <ListItem button key={"Config"} style={{textAlign:"center",marginTop:"4rem",position: "fixed", bottom: "0"}}>
+                 <InlineIcon icon={services} className={classes.buttons}/>
             </ListItem>
         </List>
     </div>

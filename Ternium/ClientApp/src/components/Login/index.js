@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useCallbac,useEffect,useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import history from "../../history";
-
+import axios from "axios"
 
 const useStyles = makeStyles((theme) =>({
     mainDiv:{
@@ -94,6 +94,33 @@ const useStyles = makeStyles((theme) =>({
 const Login = ({classes}) =>{
     classes = useStyles();
 
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const getLogins = async ({}) =>{
+        const response = await fetch('loginlog');
+        const data = await response.json();
+        console.log({ Logins: data, loading: false });
+    };
+
+    const addLogin = () =>{
+
+        //let mySqlTimestamp = new Date().toISOString();
+        let mySqlTimestamp = new Date(new Date().getTime() - (1 * 24 * 60 * 60 * 1000)).toISOString().slice(0, 10)+" "+new Date().toLocaleTimeString('en-GB');
+
+        console.log(mySqlTimestamp)
+
+        if(username !== "" && password !== ""){
+            fetch(`loginlog?user=${username}&date=${mySqlTimestamp}`, {
+                method:'POST',
+                headers:{'Content-type':'application/json'}
+            }).then(r=>r.json().then(res=>console.log("Uploaded")));
+        }else{
+            alert("No user data, add login information!")
+        }
+        history.push("/home");
+    }
+
 
     return (
         <div>
@@ -107,12 +134,12 @@ const Login = ({classes}) =>{
                         <div className={classes.credentials}>
                             <Form.Group>
                                 <h2>Usuario</h2>
-                                <Form.Control size="lg" type="text" placeholder="" type="usernameTernium"/>
+                                <Form.Control size="lg" type="text" placeholder="" type="usernameTernium" onChange={event => setUsername(event.target.value)}/>
                                 <h2 className={classes.secondLine}>Contraseña</h2>
-                                <Form.Control size="lg" type="text" placeholder="" type="password"/>
+                                <Form.Control size="lg" type="text" placeholder="" type="password" onChange={event => setPassword(event.target.value)}/>
                             </Form.Group>
                             <div className={classes.loginButtonDiv}>
-                                <Button variant="danger" className={classes.button} onClick={() => history.push('/home')}>Login</Button>
+                                <Button variant="danger" className={classes.button} onClick={addLogin}>Login</Button>
                             </div>
                         </div>
                     </div>
