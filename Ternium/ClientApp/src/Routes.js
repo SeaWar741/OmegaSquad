@@ -8,6 +8,7 @@ import history from './history';
 import Login from './components/Login/';
 import Home  from './components/Home';
 import Game from './components/Game';
+import Examen from './components/Examen';
 import Stats from './components/Stats';
 import Leaderboard from './components/Leaderboard';
 import Config from './components/Config';
@@ -53,6 +54,7 @@ const Routes = () => {
 
             <ProtectedRoute loggedIn={username} path='/home' component={Home} />
             <ProtectedRoute loggedIn={username} path='/game' component={Game} />
+            <ProtectedRoute loggedIn={username} path='/test' component={Examen} />
             <ProtectedRoute loggedIn={username} path='/leaderboard' component={Leaderboard} />
             <ProtectedRoute loggedIn={username} path='/stats' component={Stats}/>
             <ProtectedRoute loggedIn={username} path='/settings' component={Config}/>

@@ -1,14 +1,25 @@
-import React,{useState,useCallback} from "react";
+import React,{useState,useCallback,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Panel from "../Panel";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import { Icon, InlineIcon } from '@iconify/react';
 import baselineLeaderboard from '@iconify-icons/ic/baseline-leaderboard';
-import history from "../../history";
 import {Redirect } from 'react-router';
 
+import axios from 'axios';
+ 
+
+//Redux
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) =>({
     whiteBox:{
@@ -32,6 +43,11 @@ const useStyles = makeStyles((theme) =>({
         display:"inline-block"
     },
     mainDiv:{
+    },
+    loginLog:{
+        marginBottom:"2rem",
+        overflowY:"auto",
+        height:"50vh"
     }
 }))
 
@@ -44,6 +60,50 @@ const Config = ({classes}) =>{
         window.location.reload();
     }
 
+    const [rows,setRows] = useState([]);
+    
+
+    const username = useSelector(state => state.usernameState.username)
+
+    useEffect(async () => {
+        const result = await axios(
+          'https://localhost:5001/loginlog?user='+username,
+        );
+        setRows(result.data.reverse());
+    }, []);
+
+    const formatedDate = (unix_timestamp) =>{
+        
+        const nombres_dias = new Array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado")
+        const nombres_meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
+        const fecha_actual = new Date(unix_timestamp * 1000);
+
+        const dia_mes = fecha_actual.getDate() //dia del mes
+        const dia_semana = fecha_actual.getDay() //dia de la semana
+        const mes = fecha_actual.getMonth() + 1
+        const anio = fecha_actual.getFullYear()
+
+        var fechaHora = new Date(unix_timestamp * 1000);
+        var horas = fechaHora.getHours();
+        var minutos = fechaHora.getMinutes();
+        var segundos = fechaHora.getSeconds();
+        var sufijo = 'AM';
+
+        if(horas > 12) {
+            horas = horas - 12;
+            sufijo = 'PM';
+        }
+
+        if(horas < 10) { horas = '0' + horas; }
+        if(minutos < 10) { minutos = '0' + minutos; }
+        if(segundos < 10) { segundos = '0' + segundos;}
+
+        const fechaFinal = nombres_dias[dia_semana] + ", " + dia_mes + " de " + nombres_meses[mes-1] + " de " + anio + ", "+ horas + ":"+minutos + " " + sufijo;
+
+        return fechaFinal;
+    }
+
+    console.log(rows)
     return (
         <div>
             <Panel>
@@ -51,12 +111,31 @@ const Config = ({classes}) =>{
                     <div className={classes.mainDiv}>
                         <div className={classes.header}>
                             <h1 style={{display: "inline"}}>
-                                <InlineIcon icon={baselineLeaderboard}/>
+                                <InlineIcon icon={baselineLeaderboard} style={{ fontSize: 50,marginRight:"0.5rem" }} />
                                 Configuración de cuenta
                             </h1>
                         </div>
                         <div className={classes.configDiv}>
-                           Aqui va la configuración
+                           <div className={classes.loginLog}>
+                                {rows.length > 0 &&
+                                    <TableContainer>
+                                        <Table className={classes.table} aria-label="simple table">
+                                            <TableHead>
+                                            <TableRow>
+                                                <TableCell>Fechas login</TableCell>
+                                            </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                            {rows.map((row) => (
+                                                <TableRow key={row.user}>
+                                                    <TableCell>{formatedDate(row.timestamp)}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                }
+                           </div>
                            <br/>
                            <Button variant="danger" onClick={reload}>Log out</Button>
                         </div>

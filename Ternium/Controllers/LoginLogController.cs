@@ -13,7 +13,7 @@ namespace Ternium.Controllers
     [Route("[controller]")]
     public class LoginLogController : ControllerBase
     {
-        private string connectionString = "Server=127.0.0.1;Port=3308;Database=ternium;Uid=root;password=;";
+        private string connectionString = "Server=127.0.0.1;Port=3308;Database=ternium;Uid=root;password=; Allow Zero Datetime=true;";
         private readonly ILogger<LoginLogController> _logger;
 
         public LoginLogController(ILogger<LoginLogController> logger)
@@ -24,7 +24,7 @@ namespace Ternium.Controllers
         public IList<Models.LoginLog> ListaUsuarios { get; set; }
 
         [HttpGet]
-        public IEnumerable<Models.LoginLog> Get()
+        public IEnumerable<Models.LoginLog> Get(string user)
         {
             try{
                 MySqlConnection conexion = new MySqlConnection(connectionString);
@@ -32,9 +32,9 @@ namespace Ternium.Controllers
 
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conexion;
-                cmd.CommandText = "Select * from bitacora";
+                cmd.CommandText = "SELECT user, UNIX_TIMESTAMP(date) as date FROM bitacora WHERE user = '"+user+"'";
 
-
+                
                 Models.LoginLog usr1 = new Models.LoginLog();
                 ListaUsuarios = new List<Models.LoginLog>();
                 using (var reader = cmd.ExecuteReader())

@@ -141,7 +141,7 @@ const Leaderboard = ({classes}) =>{
                     <div className={classes.mainDiv}>
                         <div className={classes.header}>
                             <h1 style={{display: "inline"}}>
-                                <InlineIcon icon={baselineLeaderboard}/>
+                                <InlineIcon icon={baselineLeaderboard} style={{ fontSize: 50,marginRight:"0.5rem" }} />
                                 Leaderboard
                             </h1>
                             <FormControl className={classes.formControl}>
