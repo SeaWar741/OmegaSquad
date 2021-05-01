@@ -3,7 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import history from "../../history";
-import axios from "axios"
+
+//Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { setUsername} from '../../store/actions'
 
 const useStyles = makeStyles((theme) =>({
     mainDiv:{
@@ -94,7 +97,9 @@ const useStyles = makeStyles((theme) =>({
 const Login = ({classes}) =>{
     classes = useStyles();
 
-    const [username, setUsername] = useState('');
+    const dispatch = useDispatch();
+
+    const [usernameText, setUsernameText] = useState('');
     const [password, setPassword] = useState('');
 
     const getLogins = async ({}) =>{
@@ -103,22 +108,23 @@ const Login = ({classes}) =>{
         console.log({ Logins: data, loading: false });
     };
 
-    const addLogin = () =>{
+    const addLogin = async() =>{
 
         //let mySqlTimestamp = new Date().toISOString();
-        let mySqlTimestamp = new Date(new Date().getTime() - (1 * 24 * 60 * 60 * 1000)).toISOString().slice(0, 10)+" "+new Date().toLocaleTimeString('en-GB');
+        let mySqlTimestamp = new Date().toISOString().slice(0, 10)+" "+new Date().toLocaleTimeString('en-GB');
 
         console.log(mySqlTimestamp)
 
-        if(username !== "" && password !== ""){
-            fetch(`loginlog?user=${username}&date=${mySqlTimestamp}`, {
+        if(usernameText !== "" && password !== ""){
+            fetch(`loginlog?user=${usernameText}&date=${mySqlTimestamp}`, {
                 method:'POST',
                 headers:{'Content-type':'application/json'}
             }).then(r=>r.json().then(res=>console.log("Uploaded")));
+            dispatch(setUsername(usernameText))
+            history.push("/home");
         }else{
             alert("No user data, add login information!")
         }
-        history.push("/home");
     }
 
 
@@ -134,7 +140,7 @@ const Login = ({classes}) =>{
                         <div className={classes.credentials}>
                             <Form.Group>
                                 <h2>Usuario</h2>
-                                <Form.Control size="lg" type="text" placeholder="" type="usernameTernium" onChange={event => setUsername(event.target.value)}/>
+                                <Form.Control size="lg" type="text" placeholder="" type="usernameTernium" onChange={event => setUsernameText(event.target.value.toLowerCase())}/>
                                 <h2 className={classes.secondLine}>Contraseña</h2>
                                 <Form.Control size="lg" type="text" placeholder="" type="password" onChange={event => setPassword(event.target.value)}/>
                             </Form.Group>

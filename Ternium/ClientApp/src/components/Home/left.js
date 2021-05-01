@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Panel from "../Panel";
 
 import { InlineIcon } from '@iconify/react';
+import { useHistory } from 'react-router-dom';
 import sortRight from '@iconify/icons-icons8/sort-right';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip, Legend,ResponsiveContainer } from 'recharts';
@@ -30,6 +31,13 @@ const useStyles = makeStyles((theme) =>({
         backgroundColor:"white",
         padding:"2rem",
         pointer:"pointer"
+    },
+    buttonPlay:{
+        pointer:"pointer",
+        "&:hover, &:focus, &:active": {
+            textDecorationLine: "none"
+        }
+
     }
 }))
 
@@ -60,6 +68,7 @@ const data = [
 const Left = ({classes}) =>{
     classes = useStyles();
 
+    const history = useHistory();
 
     return (
         <div>
@@ -93,12 +102,14 @@ const Left = ({classes}) =>{
                 </Row>
                 <Row style={{paddingTop:"2rem",pointer:"drag"}}>
                     <Col>
-                        <div className={classes.playCard}>
-                            <h1 style={{fontSize:"8vw",paddingTop:"5vh",paddingBottom:"5vh"}}>
-                                <InlineIcon icon={sortRight}/>
-                                Play
-                            </h1>
-                        </div>
+                        <a href={"/game"} className={classes.buttonPlay}> 
+                            <div className={classes.playCard}>
+                                <h1 style={{fontSize:"8vw",paddingTop:"5vh",paddingBottom:"5vh"}}>
+                                    <InlineIcon icon={sortRight}/>
+                                    Play
+                                </h1>
+                            </div>
+                        </a>
                     </Col>
                 </Row>
             </Container>

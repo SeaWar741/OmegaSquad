@@ -23,8 +23,6 @@ import { Icon, InlineIcon } from '@iconify/react';
 import baselineLeaderboard from '@iconify-icons/ic/baseline-leaderboard';
 
 
-
-
 const useStyles = makeStyles((theme) =>({
     whiteBox:{
         backgroundColor: "white",
@@ -51,6 +49,12 @@ const useStyles = makeStyles((theme) =>({
         position: "absolute",
         right: "100px"
     },
+    formControl2: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+        position: "absolute",
+        right: "250px"
+    },
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
@@ -59,32 +63,25 @@ const useStyles = makeStyles((theme) =>({
     }
 }))
 
-//-------------------------------------
 
 const columns = [
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+    { id: 'name', label: 'Posición'},
+    {
+        id: 'density',
+        label: 'Usuario',
+        format: (value) => value.toLocaleString('en-US'),
+    },
+    { id: 'code', label: 'Horas Jugadas'},
     {
       id: 'population',
-      label: 'Population',
-      minWidth: 170,
-      align: 'right',
+      label: 'Mejor categoría',
       format: (value) => value.toLocaleString('en-US'),
     },
     {
       id: 'size',
-      label: 'Size\u00a0(km\u00b2)',
-      minWidth: 170,
-      align: 'right',
+      label: 'Logro más reciente',
       format: (value) => value.toLocaleString('en-US'),
-    },
-    {
-      id: 'density',
-      label: 'Density',
-      minWidth: 170,
-      align: 'right',
-      format: (value) => value.toFixed(2),
-    },
+    }
 ];
 
 function createData(name, code, population, size) {
@@ -93,34 +90,31 @@ function createData(name, code, population, size) {
 }
   
 const rows = [
-    createData('India', 'IN', 1324171354, 3287263),
-    createData('China', 'CN', 1403500365, 9596961),
-    createData('Italy', 'IT', 60483973, 301340),
-    createData('United States', 'US', 327167434, 9833520),
-    createData('Canada', 'CA', 37602103, 9984670),
-    createData('Australia', 'AU', 25475400, 7692024),
-    createData('Germany', 'DE', 83019200, 357578),
-    createData('Ireland', 'IE', 4857000, 70273),
-    createData('Mexico', 'MX', 126577691, 1972550),
-    createData('Japan', 'JP', 126317000, 377973),
-    createData('France', 'FR', 67022000, 640679),
-    createData('United Kingdom', 'GB', 67545757, 242495),
-    createData('Russia', 'RU', 146793744, 17098246),
-    createData('Nigeria', 'NG', 200962417, 923768),
-    createData('Brazil', 'BR', 210147125, 8515767),
+    createData('1', 'IN', 1324171354, 3287263),
+    createData('2', 'CN', 1403500365, 9596961),
+    createData('3', 'IT', 60483973, 301340),
+    createData('4', 'US', 327167434, 9833520),
+    createData('5', 'CA', 37602103, 9984670),
+    createData('6', 'AU', 25475400, 7692024),
+    createData('7', 'DE', 83019200, 357578),
+    createData('8', 'IE', 4857000, 70273),
+    createData('9', 'MX', 126577691, 1972550),
+    createData('10', 'JP', 126317000, 377973),
+    createData('11', 'FR', 67022000, 640679),
+    createData('12', 'GB', 67545757, 242495),
+    createData('13', 'RU', 146793744, 17098246),
+    createData('14', 'NG', 200962417, 923768),
+    createData('15', 'BR', 210147125, 8515767),
 ];
-
-  
-//-------------------------------------
-
 
 
 const Leaderboard = ({classes}) =>{
     classes = useStyles();
 
-
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [categoria, setCategoria] = React.useState('Global');
+    const [tipo, setTipo] = React.useState('Practica');
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -131,10 +125,12 @@ const Leaderboard = ({classes}) =>{
         setPage(0);
     };
 
-    const [age, setAge] = React.useState('');
+    const handleChangeCategoria = (event) => {
+        setCategoria(event.target.value);
+    };
 
-    const handleChange = (event) => {
-        setAge(event.target.value);
+    const handleChangeTipo = (event) => {
+        setTipo(event.target.value);
     };
 
 
@@ -153,12 +149,24 @@ const Leaderboard = ({classes}) =>{
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={age}
-                                    onChange={handleChange}
+                                    value={categoria}
+                                    onChange={handleChangeCategoria}
                                 >
-                                    <MenuItem value={10}>Ten</MenuItem>
+                                    <MenuItem value={"Global"}>Global</MenuItem>
                                     <MenuItem value={20}>Twenty</MenuItem>
                                     <MenuItem value={30}>Thirty</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl className={classes.formControl2}>
+                                <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={tipo}
+                                    onChange={handleChangeTipo}
+                                >
+                                    <MenuItem value={"Examen"}>Exámen</MenuItem>
+                                    <MenuItem value={"Practica"}>Práctica</MenuItem>
                                 </Select>
                             </FormControl>
                         </div>

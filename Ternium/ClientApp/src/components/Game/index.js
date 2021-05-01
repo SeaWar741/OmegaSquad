@@ -29,12 +29,11 @@ const useStyles = makeStyles((theme) =>({
 const Game = ({classes}) =>{
     classes = useStyles();
 
-
     return (
         <div>
             <Panel>
                 <div className={classes.contentDiv}>
-                    <ResponsiveEmbed src='https://shellshock.io/'/>
+                    <ResponsiveEmbed src='https://shellshock.io/' allowFullScreen/>
                 </div>
             </Panel>
         </div>

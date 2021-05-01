@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useCallbac,useState } from 'react';
 import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -6,6 +6,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
+//Redux
+import { useSelector } from 'react-redux';
 
 import { InlineIcon } from '@iconify/react';
 import home from '@iconify/icons-icons8/home';
@@ -96,8 +98,11 @@ function Panel(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const nameLetter = "M"
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const username = useSelector(state => state.usernameState.username)
+  const nameLetter = username.charAt(0).toUpperCase();
+
+  console.log(nameLetter)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -129,7 +134,7 @@ function Panel(props) {
                  <InlineIcon icon={trophy} className={classes.buttons}/>
             </ListItem>
 
-            <ListItem button key={"Config"} style={{textAlign:"center",marginTop:"4rem",position: "fixed", bottom: "0"}}>
+            <ListItem button key={"Config"} style={{textAlign:"center",marginTop:"4rem",position: "fixed", bottom: "0"}} onClick={()=> history.push("/settings")}>
                  <InlineIcon icon={services} className={classes.buttons}/>
             </ListItem>
         </List>
