@@ -141,11 +141,14 @@ const Login = ({classes}) =>{
                 dispatch(setUsername(usernameText))
 
                 history.push("/home");
-            }));
+            })).catch(error => {
+                alert("Usuario o contraseña incorrectos!");
+                console.log(error);
+            });
 
             
         }else{
-            alert("No user data, add login information!")
+            alert("Sin datos de usuario, agregue información de inicio de sesión.")
         }
     }
 
