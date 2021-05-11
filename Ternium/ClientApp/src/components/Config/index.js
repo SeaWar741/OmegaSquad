@@ -47,7 +47,10 @@ const useStyles = makeStyles((theme) =>({
     loginLog:{
         marginBottom:"2rem",
         overflowY:"auto",
-        height:"50vh"
+    },
+    userInfo:{
+        textAlign:"left",
+        padding:"1rem"
     }
 }))
 
@@ -64,6 +67,11 @@ const Config = ({classes}) =>{
     
 
     const username = useSelector(state => state.usernameState.username)
+    const usernameCode = useSelector(state => state.usernameState.usernameCode)
+    const usernameToken = useSelector(state => state.usernameState.usernameToken)
+
+    
+
 
     useEffect(async () => {
         const result = await axios(
@@ -135,6 +143,11 @@ const Config = ({classes}) =>{
                                         </Table>
                                     </TableContainer>
                                 }
+                           </div>
+                           <div className={classes.userInfo}>
+                                <h4> <strong>Username:</strong><br/> {username}</h4>
+                                <h4> <strong>UsernameCode:</strong><br/> {usernameCode}</h4>
+                                <h4> <strong>UsernameToken:</strong><br/> {usernameToken}</h4>
                            </div>
                            <br/>
                            <Button variant="danger" onClick={reload}>Log out</Button>

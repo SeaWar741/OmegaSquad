@@ -6,7 +6,7 @@ import history from "../../history";
 
 //Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { setUsername} from '../../store/actions'
+import { setUsername, setUsernameCode, setUsernameToken} from '../../store/actions'
 
 const useStyles = makeStyles((theme) =>({
     mainDiv:{
@@ -102,6 +102,7 @@ const Login = ({classes}) =>{
     const [usernameText, setUsernameText] = useState('');
     const [password, setPassword] = useState('');
 
+
     const getLogins = async ({}) =>{
         const response = await fetch('loginlog');
         const data = await response.json();
@@ -116,12 +117,33 @@ const Login = ({classes}) =>{
         console.log(mySqlTimestamp)
 
         if(usernameText !== "" && password !== ""){
-            fetch(`loginlog?user=${usernameText}&date=${mySqlTimestamp}`, {
+
+            //login Verify
+            fetch(`login?user=${usernameText}&password=${password}`, {
                 method:'POST',
                 headers:{'Content-type':'application/json'}
-            }).then(r=>r.json().then(res=>console.log("Uploaded")));
-            dispatch(setUsername(usernameText))
-            history.push("/home");
+            }).then(r=>r.json().then(res=>{
+                //console.log(res);
+                console.log(res.token);
+                dispatch(setUsernameToken(res.token))
+                console.log(res.user);
+                dispatch(setUsernameCode(res.user))
+
+                
+                console.log("Adding to DB");
+
+
+                //Login Logger
+                fetch(`loginlog?user=${usernameText}&date=${mySqlTimestamp}`, {
+                    method:'POST',
+                    headers:{'Content-type':'application/json'}
+                }).then(r=>r.json().then(res=>console.log("Uploaded")));
+                dispatch(setUsername(usernameText))
+
+                history.push("/home");
+            }));
+
+            
         }else{
             alert("No user data, add login information!")
         }
@@ -140,7 +162,7 @@ const Login = ({classes}) =>{
                         <div className={classes.credentials}>
                             <Form.Group>
                                 <h2>Usuario</h2>
-                                <Form.Control size="lg" type="text" placeholder="" type="usernameTernium" onChange={event => setUsernameText(event.target.value.toLowerCase())}/>
+                                <Form.Control size="lg" type="text" placeholder="" type="usernameTernium" onChange={event => setUsernameText(event.target.value)}/>
                                 <h2 className={classes.secondLine}>Contraseña</h2>
                                 <Form.Control size="lg" type="text" placeholder="" type="password" onChange={event => setPassword(event.target.value)}/>
                             </Form.Group>
