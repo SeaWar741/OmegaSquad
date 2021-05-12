@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState,useCallback,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,6 +17,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+import axios from 'axios';
 
 import Panel from "../Panel";
 import { Icon, InlineIcon } from '@iconify/react';
@@ -62,6 +63,19 @@ const useStyles = makeStyles((theme) =>({
         display:"inline-block"
     }
 }))
+
+
+//Comparer Function    
+function GetSortOrder(prop) {    
+    return function(a, b) {    
+        if (a[prop] > b[prop]) {    
+            return 1;    
+        } else if (a[prop] < b[prop]) {    
+            return -1;    
+        }    
+        return 0;    
+    }    
+} 
 
 
 const columns = [
@@ -113,8 +127,11 @@ const Leaderboard = ({classes}) =>{
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [categoria, setCategoria] = React.useState('Global');
-    const [tipo, setTipo] = React.useState('Practica');
+    const [categoria, setCategoria] = React.useState('');
+    const [tipo, setTipo] = React.useState('Examen');
+    const [categorias,setCategorias] = React.useState([]);
+
+    const [examenes, setExamenes] = React.useState([]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -133,6 +150,28 @@ const Leaderboard = ({classes}) =>{
         setTipo(event.target.value);
     };
 
+       
+
+    useEffect(async () => {
+        const result = await axios(
+          'https://localhost:5001/UserTypes',
+        );
+        setCategorias(result.data);
+        setCategoria(result.data[0]);
+        
+    }, []);
+
+    useEffect(async () => {
+        const result = await axios(
+          'https://localhost:5001/scores',
+        );
+        setExamenes(result.data.sort(GetSortOrder("score")).reverse());
+    }, []);
+
+    console.log(examenes);
+
+    
+    
 
     return (
         <div>
@@ -152,9 +191,9 @@ const Leaderboard = ({classes}) =>{
                                     value={categoria}
                                     onChange={handleChangeCategoria}
                                 >
-                                    <MenuItem value={"Global"}>Global</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                    {categorias.map((cat) => (
+                                        <MenuItem value={cat}>{cat}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                             <FormControl className={classes.formControl2}>
