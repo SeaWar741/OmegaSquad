@@ -50,7 +50,8 @@ namespace Ternium.Controllers
             }  
             catch (Exception e)  
             {   
-                return "{\"token\":\"Bad Rquest: "+e+"\", " + "\"user\":\"Bad Rquest\"}";
+                Console.WriteLine(e);
+                return "{\"token\":\"Bad Request\", " + "\"user\":\"Bad Request\"}";
             }  
         }
 

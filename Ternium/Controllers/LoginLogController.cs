@@ -96,7 +96,7 @@ namespace Ternium.Controllers
             {   
                 return Enumerable.Range(1,1).Select(index => new Models.LoginLog
                 {
-                    user = "Bad Request: "+e.ToString(),
+                    user = "Bad Request "+e.ToString(),
                     
                 }).ToArray();
             }  

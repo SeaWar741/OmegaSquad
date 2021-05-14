@@ -124,27 +124,31 @@ const Login = ({classes}) =>{
                 headers:{'Content-type':'application/json'}
             }).then(r=>r.json().then(res=>{
                 //console.log(res);
-                console.log(res.token);
-                dispatch(setUsernameToken(res.token))
-                console.log(res.user);
-                dispatch(setUsernameCode(res.user))
 
-                
-                console.log("Adding to DB");
-
-
-                //Login Logger
-                fetch(`loginlog?user=${usernameText}&date=${mySqlTimestamp}`, {
-                    method:'POST',
-                    headers:{'Content-type':'application/json'}
-                }).then(r=>r.json().then(res=>console.log("Uploaded")));
-                dispatch(setUsername(usernameText))
-
-                history.push("/home");
-            })).catch(error => {
-                alert("Usuario o contraseña incorrectos!");
-                console.log(error);
-            });
+                if(res.user !="Bad Request"){
+                    console.log(res.token);
+                    dispatch(setUsernameToken(res.token))
+                    console.log(res.user);
+                    dispatch(setUsernameCode(res.user))
+    
+                    
+                    console.log("Adding to DB");
+    
+    
+                    //Login Logger
+                    fetch(`loginlog?user=${usernameText}&date=${mySqlTimestamp}`, {
+                        method:'POST',
+                        headers:{'Content-type':'application/json'}
+                    }).then(r=>r.json().then(res=>console.log("Uploaded")));
+                    dispatch(setUsername(usernameText))
+    
+                    history.push("/home");
+                }else{
+                    console.log(res.user)
+                    console.log("Usuario y/o contraseña incorrectos");
+                    alert("Usuario y/o contraseña incorrectos");
+                }
+            }));
 
             
         }else{

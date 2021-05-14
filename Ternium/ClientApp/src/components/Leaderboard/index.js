@@ -78,7 +78,7 @@ function GetSortOrder(prop) {
 } 
 
 
-const columns = [
+const columnsExamen = [
     { id: 'name', label: 'Posición'},
     {
         id: 'density',
@@ -214,7 +214,7 @@ const Leaderboard = ({classes}) =>{
                                     <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
-                                        {columns.map((column) => (
+                                        {columnsExamen.map((column) => (
                                             <TableCell
                                             key={column.id}
                                             align={column.align}
@@ -229,7 +229,7 @@ const Leaderboard = ({classes}) =>{
                                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                         return (
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                            {columns.map((column) => {
+                                            {columnsExamen.map((column) => {
                                                 const value = row[column.id];
                                                 return (
                                                 <TableCell key={column.id} align={column.align}>
