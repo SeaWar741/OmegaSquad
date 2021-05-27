@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useCallback,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,6 +10,11 @@ import { InlineIcon } from '@iconify/react';
 import sortRight from '@iconify/icons-icons8/sort-right';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer,Legend  } from 'recharts';
 import RecordVoiceOverOutlinedIcon from '@material-ui/icons/RecordVoiceOverOutlined';
+
+import axios from 'axios';
+
+//Redux
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) =>({
     mainDiv:{
@@ -25,48 +30,53 @@ const useStyles = makeStyles((theme) =>({
 
 }))
 
-const data = [
-    {
-      "name": "Clase A",
-      "buenas": 4000,
-      "pv": 2400
-    },
-    {
-      "name": "Clase B",
-      "buenas": 3000,
-      "pv": 1398
-    },
-    {
-      "name": "Clase C",
-      "buenas": 2000,
-      "pv": 9800
-    },
-    {
-      "name": "Clase D",
-      "buenas": 2780,
-      "pv": 3908
-    },
-    {
-      "name": "Clase E",
-      "buenas": 1890,
-      "pv": 4800
-    },
-    {
-      "name": "Clase F",
-      "buenas": 2390,
-      "pv": 3800
-    },
-    {
-      "name": "Clase G",
-      "buenas": 3490,
-      "pv": 4300
-    }
-]
-  
-
 const Home = ({classes}) =>{
     classes = useStyles();
 
+    /**
+     * "Chatarra Nacional Primera",
+        "Devanado",
+        "Mixto Cizallado",
+        "Mixto Para Procesar",
+        "Placa y Estructura Nacional",
+        "Rebaba de Acero",
+        "Regreso Industrial Galvanizado Nacional"
+     */
+
+
+    const [buenas,setBuenas] = useState([]);
+    const [malas,setMalas] = useState([]);
+    const [classification,setClassification] = useState([]);
+
+    const listChatarra = ["Chatarra Nacional Primera","Devanado","Mixto Cizallado","Mixto Para Procesar","Placa y Estructura Nacional","Rebaba de Acero","Regreso Industrial Galvanizado Nacional"]
+
+    const username = useSelector(state => state.usernameState.username)
+
+    const categoria = "Chatarra";
+
+    const tipo = "Chatarra Nacional Primera";
+
+    useEffect(async () => {
+
+        for (const chatarra of listChatarra) {
+            console.log(chatarra)
+            const resultBuenas = await axios(
+                'https://localhost:5001/buenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
+            );
+            const resultMalas = await axios(
+                'https://localhost:5001/nobuenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
+            );
+
+            setBuenas(buenas => [...buenas, {name: chatarra, buenas: resultBuenas.data[0].buenas}]);
+            setMalas(buenas => [...buenas, {name: chatarra, malas: resultMalas.data[0].noBuenas}]);
+            setClassification(classification => [...classification, {name: chatarra, buenas: resultBuenas.data[0].buenas, malas: resultMalas.data[0].noBuenas}])
+        }
+
+    }, []);
+
+    console.log(buenas)
+    console.log(malas)
+    console.log(classification)
 
     return (
         <div>
@@ -86,8 +96,9 @@ const Home = ({classes}) =>{
                                         <BarChart 
                                             width={600} 
                                             height={600} 
-                                            data={data} 
+                                            data={classification} 
                                             layout="vertical"
+                                            fontSize={12}
                                         >
                                              <defs>
                                                 <linearGradient id="buenasColor" x1="1" y1="0" x2="0" y2="0">

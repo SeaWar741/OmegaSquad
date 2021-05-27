@@ -13,7 +13,7 @@ namespace Ternium.Controllers
     [Route("[controller]")]
     public class ScoresPracticeController : ControllerBase
     {
-        private string connectionString = "Server=127.0.0.1;Port=3306;Database=ternium;Uid=root;password=; Allow Zero Datetime=true;";
+        private string connectionString = "Server=127.0.0.1;Port=3308;Database=ternium;Uid=root;password=; Allow Zero Datetime=true;";
         private readonly ILogger<ScoresPracticeController> _logger;
 
         public ScoresPracticeController(ILogger<ScoresPracticeController> logger)

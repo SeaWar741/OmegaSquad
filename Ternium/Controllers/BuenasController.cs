@@ -13,7 +13,7 @@ namespace Ternium.Controllers
     [Route("[controller]")]
     public class BuenasController : ControllerBase
     {
-        private string connectionString = "Server=127.0.0.1;Port=3306;Database=ternium;Uid=root;password=; Allow Zero Datetime=true;";
+        private string connectionString = "Server=127.0.0.1;Port=3308;Database=ternium;Uid=root;password=; Allow Zero Datetime=true;";
         private readonly ILogger<BuenasController> _logger;
 
         public BuenasController(ILogger<BuenasController> logger)
@@ -21,7 +21,7 @@ namespace Ternium.Controllers
             _logger = logger;
         }
         
-        public IList<Models.Buenas> ListaUsuarios { get; set; }
+        public IList<Models.Buenas> ListaBuenas { get; set; }
 
         [HttpGet]
         public IEnumerable<Models.Buenas> Get(string user,string tipo,string categoria)
@@ -36,7 +36,7 @@ namespace Ternium.Controllers
 
                 
                 Models.Buenas usr1 = new Models.Buenas();
-                ListaUsuarios = new List<Models.Buenas>();
+                ListaBuenas = new List<Models.Buenas>();
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -44,11 +44,11 @@ namespace Ternium.Controllers
                         usr1 = new Models.Buenas();
                         usr1.buenas = int.Parse(reader["totales"].ToString());
 
-                        ListaUsuarios.Add(usr1);
+                        ListaBuenas.Add(usr1);
                     }
                 }
                 conexion.Dispose();
-                return ListaUsuarios;
+                return ListaBuenas;
             }catch(Exception e){
                 Console.WriteLine(e);
                 return Enumerable.Range(1,1).Select(index => new Models.Buenas
