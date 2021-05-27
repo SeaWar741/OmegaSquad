@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useCallback,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container,Row,Col,Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,6 +12,10 @@ import sortRight from '@iconify/icons-icons8/sort-right';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip, Legend,ResponsiveContainer } from 'recharts';
 
+import axios from 'axios';
+
+//Redux
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) =>({
     mainDiv:{
@@ -41,34 +45,52 @@ const useStyles = makeStyles((theme) =>({
     }
 }))
 
-const data = [
-    {
-      "name": "Lunes",
-      "HorasDeJuego": 4000,
-    },
-    {
-      "name": "Martes",
-      "HorasDeJuego": 3000,
-    },
-    {
-      "name": "Miercoles",
-      "HorasDeJuego": 2000,
-    },
-    {
-      "name": "Jueves",
-      "HorasDeJuego": 2780,
-    },
-    {
-        "name": "Viernes",
-        "HorasDeJuego": 2780,
-    }
-]
-
 
 const Left = ({classes}) =>{
     classes = useStyles();
 
     const history = useHistory();
+
+    const username = useSelector(state => state.usernameState.username)
+
+    const [horas,setHoras] = useState([]);
+
+    useEffect(async () => {
+
+        const result = await axios(
+            'https://localhost:5001/tiempodiasemanaactual?user='+username,
+        );
+
+        const dataDays = [
+            {
+                name:"Lunes",
+                HorasDeJuego:result.data[0].lunes
+            },
+            {
+                name:"Martes",
+                HorasDeJuego:result.data[0].martes
+            },
+            {
+                name:"Miercoles",
+                HorasDeJuego:result.data[0].miercoles
+            },
+            {
+                name:"Jueves",
+                HorasDeJuego:result.data[0].jueves
+            },
+            {
+                name:"Viernes",
+                HorasDeJuego:result.data[0].viernes
+            }
+        ];
+
+        console.log(result.data)
+
+        setHoras(dataDays);
+
+    }, []);
+
+    console.log(horas);
 
     return (
         <div>
@@ -82,7 +104,7 @@ const Left = ({classes}) =>{
                             </h1>
                             <div style={{ width: '100%', height: 300 }}>
                                 <ResponsiveContainer>
-                                    <BarChart data={data}>
+                                    <BarChart data={horas}>
                                         <defs>
                                             <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
                                             <stop offset="0%" stopColor="#007db1" stopOpacity={1}/>

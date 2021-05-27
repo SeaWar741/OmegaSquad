@@ -46,7 +46,7 @@ namespace Ternium.Controllers
                         usr1.user = reader["user"].ToString();
                         usr1.tipo = reader["tipo"].ToString();
                         usr1.categoria = reader["Categoria"].ToString();
-                        usr1.metrica = float.Parse(reader["metrica"].ToString());
+                        usr1.metrica = float.Parse(reader["metrica"].ToString())*100;
                         usr1.puntaje = float.Parse(reader["puntaje"].ToString());
 
                         ListaUsuarios.Add(usr1);

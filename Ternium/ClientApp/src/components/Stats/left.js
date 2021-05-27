@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useCallback,useEffect}  from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container,Row,Col,Card,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,6 +18,10 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import Paper from '@material-ui/core/Paper';
 
+import axios from 'axios';
+
+//Redux
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) =>({
     mainDiv:{
@@ -47,31 +51,6 @@ const useStyles = makeStyles((theme) =>({
     }
 }))
 
-
-
-const data = [
-    {
-      "name": "Lunes",
-      "HorasDeJuego": 4000,
-    },
-    {
-      "name": "Martes",
-      "HorasDeJuego": 3000,
-    },
-    {
-      "name": "Miercoles",
-      "HorasDeJuego": 2000,
-    },
-    {
-      "name": "Jueves",
-      "HorasDeJuego": 2780,
-    },
-    {
-        "name": "Viernes",
-        "HorasDeJuego": 2780,
-    }
-]
-
 const data2 = [
     { name: 'Group A', value: 400 },
     { name: 'Group B', value: 300 },
@@ -81,8 +60,100 @@ const data2 = [
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
+function binarySearch(sortedArray, inusername){
+    let start = 0;
+    let end = sortedArray.length - 1;
+
+    while (start <= end) {
+        let middle = Math.floor((start + end) / 2);
+
+        if (sortedArray[middle].username === inusername) {
+            // found the inusername
+            return middle;
+        } else if (sortedArray[middle].username < inusername) {
+            // continue searching to the right
+            start = middle + 1;
+        } else {
+            // search searching to the left
+            end = middle - 1;
+        }
+    }
+    // key wasn't found
+    return undefined;
+}
+
 const Left = ({classes}) =>{
     classes = useStyles();
+
+    const username = useSelector(state => state.usernameState.username)
+
+    const [horas,setHoras] = useState([]);
+    const [horast,setHorast] = useState(0);
+    const [juegos,setJuegos] = useState(0);
+    const [posicion, setPosicion] = useState();
+
+
+    useEffect(async () => {
+
+        const result = await axios(
+            'https://localhost:5001/tiempodiasemanaactual?user='+username,
+        );
+        
+        const dataDays = [
+            {
+                name:"Lunes",
+                HorasDeJuego:result.data[0].lunes
+            },
+            {
+                name:"Martes",
+                HorasDeJuego:result.data[0].martes
+            },
+            {
+                name:"Miercoles",
+                HorasDeJuego:result.data[0].miercoles
+            },
+            {
+                name:"Jueves",
+                HorasDeJuego:result.data[0].jueves
+            },
+            {
+                name:"Viernes",
+                HorasDeJuego:result.data[0].viernes
+            }
+        ];
+
+
+        setHoras(dataDays);
+
+    }, []);
+
+    useEffect(async () => {
+
+        const result = await axios(
+            'https://localhost:5001/tiempohorasjugadas?user='+username,
+        );
+        
+        setHorast(Math.floor(result.data[0].tiempoHorasJugadas/60) + ":" +result.data[0].tiempoHorasJugadas%60);
+
+    }, []);
+
+    useEffect(async () => {
+
+        const result = await axios(
+            'https://localhost:5001/numerojuegos?user='+username,
+        );
+        
+        setJuegos(result.data[0].numeroJuegos);
+
+    }, []);
+
+    useEffect(async () => {
+        const result = await axios(
+          'https://localhost:5001/ScoresPractice',
+        );
+        setPosicion(binarySearch(result.data,username));
+    }, []);
+
 
 
     return (
@@ -97,7 +168,7 @@ const Left = ({classes}) =>{
                             </h1>
                             <div style={{ width: '100%', height: 300, padding:"2rem" }}>
                                 <ResponsiveContainer>
-                                    <AreaChart data={data}>
+                                    <AreaChart data={horas}>
                                         <defs>
                                             <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
                                             <stop offset="0%" stopColor="#007DB1" stopOpacity={0.48}/>
@@ -117,17 +188,17 @@ const Left = ({classes}) =>{
                                 <Grid container spacing={3}>
                                     <Grid item xs={6}>
                                         <div>
-                                            <strong>2:27:29</strong>
+                                            <strong>{horast}</strong>
                                             <br/>
                                             Horas de juego totales
                                             <br/><br/>
 
-                                            <strong>45</strong>
+                                            <strong>{juegos}</strong>
                                             <br/>
                                             Juegos completados
                                             <br/><br/>
 
-                                            <strong>#23</strong>
+                                            <strong>{posicion !== undefined ? "#"+posicion:"N/A"}</strong>
                                             <br/>
                                             Posición global
                                             <br/><br/>
@@ -135,27 +206,7 @@ const Left = ({classes}) =>{
                                     </Grid>
                                     <Grid item xs={6}>
                                         <div style={{textAlign:"center"}}>
-                                            <PieChart width={150} height={150} >
-                                                <Pie
-                                                data={data2}
-                                                startAngle={180}
-                                                endAngle={0}
-                                                innerRadius={40}
-                                                outerRadius={60}
-                                                fill="#8884d8"
-                                                paddingAngle={5}
-                                                dataKey="value"
-                                                >
-                                                {data.map((entry, index) => (
-                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                                ))}
-                                                </Pie>
-                                            </PieChart>
-                                            <strong>#23</strong>
-                                            <br/>
-                                            Posición global
-                                            <br/><br/>
-                                            <Button variant="danger">Ver recomendaciones</Button>
+                                            Tabla con logros
                                         </div>
                                     </Grid>
                                 </Grid>
