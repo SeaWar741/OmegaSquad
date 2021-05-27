@@ -1,9 +1,7 @@
 import React ,{useState,useCallback,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,7 +11,6 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -77,8 +74,13 @@ function GetSortOrder(prop) {
     }    
 } 
 
-
 const columnsExamen = [
+    { id: 'posicion', label: 'Posición'},
+    { id: 'username', label: 'Usuario'},
+    { id: 'score', label: 'Puntos'}
+];
+
+const columnsPractica = [
     { id: 'name', label: 'Posición'},
     {
         id: 'density',
@@ -98,9 +100,14 @@ const columnsExamen = [
     }
 ];
 
+
 function createData(name, code, population, size) {
     const density = population / size;
     return { name, code, population, size, density };
+}
+
+function createExamenData(posicion, username, score) {
+    return { posicion, username, score};
 }
   
 const rows = [
@@ -120,6 +127,7 @@ const rows = [
     createData('14', 'NG', 200962417, 923768),
     createData('15', 'BR', 210147125, 8515767),
 ];
+
 
 
 const Leaderboard = ({classes}) =>{
@@ -148,9 +156,7 @@ const Leaderboard = ({classes}) =>{
 
     const handleChangeTipo = (event) => {
         setTipo(event.target.value);
-    };
-
-       
+    };   
 
     useEffect(async () => {
         const result = await axios(
@@ -165,13 +171,18 @@ const Leaderboard = ({classes}) =>{
         const result = await axios(
           'https://localhost:5001/scores',
         );
-        setExamenes(result.data.sort(GetSortOrder("score")).reverse());
+        //setExamenes(result.data.sort(GetSortOrder("score")).reverse());
+        var ex = [];
+        var examenesApi = result.data.sort(GetSortOrder("score")).reverse();
+        examenesApi.forEach(function(item,index) {
+            console.log(item)
+            console.log(index)
+            ex.push(createExamenData(index+1, item.username, item.score))
+        });
+        setExamenes(ex);
+
     }, []);
 
-    console.log(examenes);
-
-    
-    
 
     return (
         <div>
@@ -203,13 +214,14 @@ const Leaderboard = ({classes}) =>{
                                     id="demo-simple-select"
                                     value={tipo}
                                     onChange={handleChangeTipo}
+        
                                 >
                                     <MenuItem value={"Examen"}>Exámen</MenuItem>
                                     <MenuItem value={"Practica"}>Práctica</MenuItem>
                                 </Select>
                             </FormControl>
                         </div>
-                        <div className={classes.tableDiv}>
+                        <div className={classes.tableDiv}>-
                             <TableContainer className={classes.container}>
                                     <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
@@ -226,7 +238,7 @@ const Leaderboard = ({classes}) =>{
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                                        {examenes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
                                         return (
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                             {columnsExamen.map((column) => {

@@ -1,18 +1,17 @@
-import React from "react";
+import React,{useState,useCallback,useEffect} from "react";
 import { makeStyles,withStyles  } from "@material-ui/core/styles";
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Paper from '@material-ui/core/Paper';
-import FormHelperText from '@material-ui/core/FormHelperText';
+
 import Grid from '@material-ui/core/Grid';
 import Countdown from "react-countdown";
 import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
+
+import axios from 'axios';
 
 
 import Panel from "../Panel";
@@ -86,9 +85,30 @@ const Leaderboard = ({classes}) =>{
     classes = useStyles();
 
     const [age, setAge] = React.useState('');
+
+    const [images, setImages] = React.useState('');
+
+    const [image,setImage] = React.useState('');
+
     const handleChange = (event) => {
       setAge(event.target.value);
     };
+
+    useEffect(async() => {
+        const result = await axios(
+            'https://localhost:5001/images',
+        );
+        setImages(result.data);
+    }, [])
+
+    useEffect(() =>{
+        const imageindex = Math.floor(Math.random() * images.length);
+        if(images.length>0){
+            setImage(images[imageindex].imageURL);
+        }
+    },[images])
+
+    console.log(images);
 
     return (
         <div>
@@ -105,7 +125,10 @@ const Leaderboard = ({classes}) =>{
                             <div className={classes.root}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={6}>
-                                            <Image src="./img/Test/Mixto.jpg" fluid />
+                                            {images.length>0 &&
+                                                <Image src="./img/Test/Mixto.jpg" fluid />
+                                            }
+                                            
                                     </Grid>
                                     <Grid item xs={6}>
                                         <div>
