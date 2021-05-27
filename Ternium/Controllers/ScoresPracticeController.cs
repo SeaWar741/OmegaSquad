@@ -20,7 +20,7 @@ namespace Ternium.Controllers
         {
             _logger = logger;
         }
-        
+
         public IList<Models.RankingPractica> ListaUsuarios { get; set; }
 
         [HttpGet]
@@ -32,7 +32,7 @@ namespace Ternium.Controllers
 
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conexion;
-                cmd.CommandText = "SELECT juego.user, tipopregunta.Categoria, tipopregunta.tipo, ROUND((SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end) + 0.0 ) / (0.0 + SUM(case when pregunta.isCorrecta <> 1 then 1 else 0 end) + SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end)), 2) AS metrica, SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end) AS puntaje FROM pregunta INNER JOIN juego ON pregunta.idJuego = juego.id INNER JOIN tipopregunta ON tipopregunta.id = pregunta.tipo WHERE ( tipopregunta.tipo = \"Chatarra\" AND YEARWEEK(DATE(pregunta.startTime), 1) = YEARWEEK(CURDATE(), 1)) GROUP BY USER ORDER BY `metrica` DESC";
+                cmd.CommandText = "SELECT                juego.user,    tipopregunta.Categoria,    tipopregunta.tipo,	ROUND((SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end) + 0.0 ) / (0.0 + SUM(case when pregunta.isCorrecta <> 1 then 1 else 0 end) + 		SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end)), 2) AS metrica,    SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end) AS puntaje FROM    pregunta INNER JOIN juego ON pregunta.idJuego = juego.id INNER JOIN tipopregunta ON tipopregunta.id = pregunta.tipo WHERE    (        tipopregunta.tipo = \"Chatarra\" AND YEARWEEK(DATE(pregunta.startTime),        1) = YEARWEEK(CURDATE(), 1))    GROUP BY        USER  ORDER BY `metrica`  DESC";
 
                 Models.RankingPractica usr1 = new Models.RankingPractica();
                 ListaUsuarios = new List<Models.RankingPractica>();
@@ -45,7 +45,7 @@ namespace Ternium.Controllers
                         usr1.ranking = rank;
                         usr1.user = reader["user"].ToString();
                         usr1.tipo = reader["tipo"].ToString();
-                        usr1.categoria = reader["categoria"].ToString();
+                        usr1.categoria = reader["Categoria"].ToString();
                         usr1.metrica = float.Parse(reader["metrica"].ToString());
                         usr1.puntaje = float.Parse(reader["puntaje"].ToString());
 
@@ -59,11 +59,11 @@ namespace Ternium.Controllers
                 return Enumerable.Range(1,1).Select(index => new Models.RankingPractica
                 {
                     user = "Bad Request: "+e.ToString(),
-                    
+
                 }).ToArray();
             }
-            
+
         }
-        
+
     }
 }

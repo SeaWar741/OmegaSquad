@@ -129,7 +129,6 @@ const rows = [
 ];
 
 
-
 const Leaderboard = ({classes}) =>{
     classes = useStyles();
 
@@ -140,6 +139,7 @@ const Leaderboard = ({classes}) =>{
     const [categorias,setCategorias] = React.useState([]);
 
     const [examenes, setExamenes] = React.useState([]);
+    const [practicas, setPracticas] = React.useState([]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -183,6 +183,88 @@ const Leaderboard = ({classes}) =>{
 
     }, []);
 
+    useEffect(async () => {
+        const result = await axios(
+          'https://localhost:5001/ScoresPractice',
+        );
+        setPracticas(result.data);
+    }, []);
+
+    console.log(practicas)
+
+    const ExamenTableComponent = ({classes}) =>{
+        return (
+            <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                    <TableRow>
+                    {columnsExamen.map((column) => (
+                        <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth }}
+                        >
+                        {column.label}
+                        </TableCell>
+                    ))}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {examenes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
+                    return (
+                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                        {columnsExamen.map((column) => {
+                            const value = row[column.id];
+                            return (
+                            <TableCell key={column.id} align={column.align}>
+                                {column.format && typeof value === 'number' ? column.format(value) : value}
+                            </TableCell>
+                            );
+                        })}
+                        </TableRow>
+                    );
+                    })}
+                </TableBody>
+            </Table>
+        );
+    };
+
+    const PracticaTableComponent = ({classes}) =>{
+        return (
+            <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                    <TableRow>
+                    {columnsPractica.map((column) => (
+                        <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth }}
+                        >
+                        {column.label}
+                        </TableCell>
+                    ))}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {examenes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
+                    return (
+                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                        {columnsPractica.map((column) => {
+                            const value = row[column.id];
+                            return (
+                            <TableCell key={column.id} align={column.align}>
+                                {column.format && typeof value === 'number' ? column.format(value) : value}
+                            </TableCell>
+                            );
+                        })}
+                        </TableRow>
+                    );
+                    })}
+                </TableBody>
+            </Table>
+        );
+    };
+
+
 
     return (
         <div>
@@ -194,6 +276,7 @@ const Leaderboard = ({classes}) =>{
                                 <InlineIcon icon={baselineLeaderboard} style={{ fontSize: 50,marginRight:"0.5rem" }} />
                                 Leaderboard
                             </h1>
+                            {/**
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="demo-simple-select-label">Categorías</InputLabel>
                                 <Select
@@ -207,7 +290,8 @@ const Leaderboard = ({classes}) =>{
                                     ))}
                                 </Select>
                             </FormControl>
-                            <FormControl className={classes.formControl2}>
+                             */}
+                            <FormControl className={classes.formControl}>
                                 <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -221,39 +305,13 @@ const Leaderboard = ({classes}) =>{
                                 </Select>
                             </FormControl>
                         </div>
-                        <div className={classes.tableDiv}>-
+                        <div className={classes.tableDiv}>
                             <TableContainer className={classes.container}>
-                                    <Table stickyHeader aria-label="sticky table">
-                                    <TableHead>
-                                        <TableRow>
-                                        {columnsExamen.map((column) => (
-                                            <TableCell
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{ minWidth: column.minWidth }}
-                                            >
-                                            {column.label}
-                                            </TableCell>
-                                        ))}
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {examenes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                            {columnsExamen.map((column) => {
-                                                const value = row[column.id];
-                                                return (
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {column.format && typeof value === 'number' ? column.format(value) : value}
-                                                </TableCell>
-                                                );
-                                            })}
-                                            </TableRow>
-                                        );
-                                        })}
-                                    </TableBody>
-                                    </Table>
+                                    {tipo=="Examen"?
+                                        <ExamenTableComponent/>
+                                        :<PracticaTableComponent/>
+                                    }
+                                    
                             </TableContainer>
                             <TablePagination
                                 component="div"

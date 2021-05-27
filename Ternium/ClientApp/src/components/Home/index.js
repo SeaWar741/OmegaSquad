@@ -54,8 +54,6 @@ const Home = ({classes}) =>{
 
     const categoria = "Chatarra";
 
-    const tipo = "Chatarra Nacional Primera";
-
     useEffect(async () => {
 
         for (const chatarra of listChatarra) {
