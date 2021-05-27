@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 
 namespace Ternium.Models
 {
-    public class Buenas
+    public class TiempoPromedio
     {
-        public int buenas {get;set;}
+        
+        public float tiempoPromedio {get;set;}
+
+
     }
 }

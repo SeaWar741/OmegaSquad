@@ -11,20 +11,20 @@ namespace Ternium.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BuenasController : ControllerBase
+    public class NoBuenasController : ControllerBase
     {
         private string connectionString = "Server=127.0.0.1;Port=3306;Database=ternium;Uid=root;password=; Allow Zero Datetime=true;";
-        private readonly ILogger<BuenasController> _logger;
+        private readonly ILogger<NoBuenasController> _logger;
 
-        public BuenasController(ILogger<BuenasController> logger)
+        public NoBuenasController(ILogger<NoBuenasController> logger)
         {
             _logger = logger;
         }
         
-        public IList<Models.Buenas> ListaUsuarios { get; set; }
+        public IList<Models.NoBuenas> ListaUsuarios { get; set; }
 
         [HttpGet]
-        public IEnumerable<Models.Buenas> Get(string user,string tipo,string categoria)
+        public IEnumerable<Models.NoBuenas> Get(string tipo,string user,string categoria)
         {
             try{
                 MySqlConnection conexion = new MySqlConnection(connectionString);
@@ -32,17 +32,17 @@ namespace Ternium.Controllers
 
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conexion;
-                cmd.CommandText = "SELECT    COUNT(*) as totales FROM    pregunta INNER JOIN juego ON pregunta.idJuego = juego.id INNER JOIN tipopregunta ON tipopregunta.id = pregunta.tipo WHERE    (         tipopregunta.tipo = \""+tipo+"\" AND USER = \""+user+"\" AND pregunta.isCorrecta = 1 AND tipopregunta.Categoria = \""+categoria+"\"    )";
+                cmd.CommandText = "SELECT COUNT(*) as totales FROM pregunta INNER JOIN juego ON pregunta.idJuego = juego.id INNER JOIN tipopregunta ON tipopregunta.id = pregunta.tipo WHERE ( tipopregunta.tipo = \""+tipo+"\" AND USER = \""+user+"\" AND pregunta.isCorrecta = 0 AND tipopregunta.Categoria = \""+categoria+"\" )";
 
                 
-                Models.Buenas usr1 = new Models.Buenas();
-                ListaUsuarios = new List<Models.Buenas>();
+                Models.NoBuenas usr1 = new Models.NoBuenas();
+                ListaUsuarios = new List<Models.NoBuenas>();
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        usr1 = new Models.Buenas();
-                        usr1.buenas = int.Parse(reader["totales"].ToString());
+                        usr1 = new Models.NoBuenas();
+                        usr1.noBuenas = int.Parse(reader["totales"].ToString());
 
                         ListaUsuarios.Add(usr1);
                     }
@@ -51,7 +51,7 @@ namespace Ternium.Controllers
                 return ListaUsuarios;
             }catch(Exception e){
                 Console.WriteLine(e);
-                return Enumerable.Range(1,1).Select(index => new Models.Buenas
+                return Enumerable.Range(1,1).Select(index => new Models.NoBuenas
                 {
                     
                     

@@ -11,20 +11,20 @@ namespace Ternium.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BuenasController : ControllerBase
+    public class LogrosUsuarioController : ControllerBase
     {
         private string connectionString = "Server=127.0.0.1;Port=3306;Database=ternium;Uid=root;password=; Allow Zero Datetime=true;";
-        private readonly ILogger<BuenasController> _logger;
+        private readonly ILogger<LogrosUsuarioController> _logger;
 
-        public BuenasController(ILogger<BuenasController> logger)
+        public LogrosUsuarioController(ILogger<LogrosUsuarioController> logger)
         {
             _logger = logger;
         }
         
-        public IList<Models.Buenas> ListaUsuarios { get; set; }
+        public IList<Models.LogrosUsuario> ListaUsuarios { get; set; }
 
         [HttpGet]
-        public IEnumerable<Models.Buenas> Get(string user,string tipo,string categoria)
+        public IEnumerable<Models.LogrosUsuario> Get(string tipo,string user,string categoria)
         {
             try{
                 MySqlConnection conexion = new MySqlConnection(connectionString);
@@ -32,17 +32,21 @@ namespace Ternium.Controllers
 
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conexion;
-                cmd.CommandText = "SELECT    COUNT(*) as totales FROM    pregunta INNER JOIN juego ON pregunta.idJuego = juego.id INNER JOIN tipopregunta ON tipopregunta.id = pregunta.tipo WHERE    (         tipopregunta.tipo = \""+tipo+"\" AND USER = \""+user+"\" AND pregunta.isCorrecta = 1 AND tipopregunta.Categoria = \""+categoria+"\"    )";
+                cmd.CommandText = "SELECT tipologro.id as idDeLogro, tipologro.name, logros.earnTime, tipologro.imageLink FROM `logros` INNER JOIN tipologro ON logros.type = tipologro.id WHERE logros.user = \""+user+"\" ";
 
                 
-                Models.Buenas usr1 = new Models.Buenas();
-                ListaUsuarios = new List<Models.Buenas>();
+                Models.LogrosUsuario usr1 = new Models.LogrosUsuario();
+                ListaUsuarios = new List<Models.LogrosUsuario>();
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        usr1 = new Models.Buenas();
-                        usr1.buenas = int.Parse(reader["totales"].ToString());
+                        usr1 = new Models.LogrosUsuario();
+                        usr1.idTipoLogro = int.Parse(reader["idDeLogro"].ToString());
+                        usr1.nombre = reader["name"].ToString();
+                        usr1.earnTime = reader["earnTime"].ToString();
+                        usr1.imageLink = reader["imageLink"].ToString();
+
 
                         ListaUsuarios.Add(usr1);
                     }
@@ -51,7 +55,7 @@ namespace Ternium.Controllers
                 return ListaUsuarios;
             }catch(Exception e){
                 Console.WriteLine(e);
-                return Enumerable.Range(1,1).Select(index => new Models.Buenas
+                return Enumerable.Range(1,1).Select(index => new Models.LogrosUsuario
                 {
                     
                     

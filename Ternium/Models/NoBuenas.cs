@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Ternium.Models
 {
-    public class Buenas
+    public class NoBuenas
     {
-        public int buenas {get;set;}
+        public int noBuenas {get;set;}
     }
 }
