@@ -134,7 +134,7 @@ const Leaderboard = ({classes}) =>{
 
     useEffect(async () => {
         const result = await axios(
-          'https://localhost:5001/UserTypes',
+          process.env.REACT_APP_SQL_ROUTE+'UserTypes',
         );
         setCategorias(result.data);
         setCategoria(result.data[0]);
@@ -143,7 +143,7 @@ const Leaderboard = ({classes}) =>{
 
     useEffect(async () => {
         const result = await axios(
-          'https://localhost:5001/scores',
+          process.env.REACT_APP_SQL_ROUTE+'scores',
         );
         //setExamenes(result.data.sort(GetSortOrder("score")).reverse());
         var ex = [];
@@ -159,7 +159,7 @@ const Leaderboard = ({classes}) =>{
 
     useEffect(async () => {
         const result = await axios(
-          'https://localhost:5001/ScoresPractice',
+          process.env.REACT_APP_SQL_ROUTE+'ScoresPractice',
         );
         setPracticas(result.data);
     }, []);

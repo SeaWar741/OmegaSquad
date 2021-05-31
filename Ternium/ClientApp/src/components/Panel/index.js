@@ -12,23 +12,31 @@ import { useSelector } from 'react-redux';
 import { InlineIcon } from '@iconify/react';
 import home from '@iconify/icons-icons8/home';
 import controller from '@iconify/icons-icons8/controller';
+import createNew from '@iconify/icons-icons8/create-new';
 import barChart  from '@iconify/icons-icons8/bar-chart';
 import services from '@iconify/icons-icons8/services';
 import trophy from '@iconify/icons-icons8/trophy';
-import { useHistory } from 'react-router-dom';
+import { useHistory,Link, NavLink } from 'react-router-dom';
 
 import './panel.css';
+
+import MobileDrawer from  './MobileDrawer.js';
 
 const drawerWidth = 125;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    [theme.breakpoints.up('sm')]:{
+      display:"flex",
+      height: "100vh"
+    },
     backgroundImage: "url('./img/backgrounds/Login.jpg')",
     backgroundSize: "cover",
     backgroundRepeat: "noRepeat",
     boxShadow: "inset 0 0 0 50vw rgba(0,0,0,0.3)",
-    height: "100vh"
+    [theme.breakpoints.down('sm')]:{
+      minHeight: "100vh"
+    },
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
@@ -73,8 +81,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:"transparent !important",
   },
   circle:{
-    width: "10vw",
-    height: "6.5vw",
+    width: "10.5vw",
+    height: "12vh",
     borderRadius: "50%",
     background: "linear-gradient(66deg, rgba(255,214,0,1) 17%, rgba(255,0,0,1) 100%)",
     textAlign:"center",
@@ -121,62 +129,67 @@ function Panel(props) {
                     </div>
                 </div>
             </ListItem>
-            <ListItem button key={"Home"} style={{textAlign:"center",marginTop:"3rem"}} onClick={()=> history.push("/home")}>
-                 <InlineIcon icon={home} className={classes.buttons}/>
-            </ListItem>
-            <ListItem button key={"Game"} className={classes.buttonMain} onClick={()=> history.push("/game")}>
-                 <InlineIcon icon={controller} className={classes.buttons}/>
-            </ListItem>
-            <ListItem button key={"stats"} className={classes.buttonMain} onClick={()=> history.push("/stats")}>
-                 <InlineIcon icon={barChart } className={classes.buttons}/>
-            </ListItem>
-            <ListItem button key={"Leaderboard"} className={classes.buttonMain}  onClick={()=> history.push("/leaderboard")}>
-                 <InlineIcon icon={trophy} className={classes.buttons}/>
-            </ListItem>
-
-            <ListItem button key={"Config"} style={{textAlign:"center",marginTop:"4rem",position: "fixed", bottom: "0"}} onClick={()=> history.push("/settings")}>
-                 <InlineIcon icon={services} className={classes.buttons}/>
-            </ListItem>
+            <NavLink to="/home">
+              <ListItem button key={"Home"} style={{textAlign:"center",marginTop:"3rem"}}>
+                  <InlineIcon icon={home} className={classes.buttons}/>
+              </ListItem>
+            </NavLink>
+            <NavLink to="/game">
+              <ListItem button key={"Game"} className={classes.buttonMain}>
+                  <InlineIcon icon={controller} className={classes.buttons}/>
+              </ListItem>
+            </NavLink>
+            <NavLink to="/test">
+              <ListItem button key={"test"} className={classes.buttonMain}>
+                  <InlineIcon icon={createNew} className={classes.buttons}/>
+              </ListItem>
+            </NavLink>
+            <NavLink to="/stats">
+              <ListItem button key={"stats"} className={classes.buttonMain}>
+                  <InlineIcon icon={barChart } className={classes.buttons}/>
+              </ListItem>
+            </NavLink>
+            <NavLink to="/leaderboard">
+              <ListItem button key={"Leaderboard"} className={classes.buttonMain}>
+                  <InlineIcon icon={trophy} className={classes.buttons}/>
+              </ListItem>
+            </NavLink>
+            <NavLink to="/settings">
+              <ListItem button key={"Config"} style={{textAlign:"center",marginTop:"4rem",position: "fixed", bottom: "0"}}>
+                  <InlineIcon icon={services} className={classes.buttons}/>
+              </ListItem>
+            </NavLink>
         </List>
     </div>
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
+  
 
   return (
     <div className={classes.root}>
         <nav className={classes.drawer} aria-label="mailbox folders">
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-            <Hidden smUp implementation="css">
-            <Drawer
-                container={container}
-                variant="temporary"
-                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                classes={{
-                paper: classes.drawerPaper,
-                }}
-                ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-                }}
-            >
-                {drawer}
-            </Drawer>
-            </Hidden>
             <Hidden xsDown implementation="css">
-            <Drawer
-                classes={{
-                paper: classes.drawerPaper,
-                }}
-                variant="permanent"
-                open
-            >
-                {drawer}
-            </Drawer>
+              <Drawer
+                  classes={{
+                  paper: classes.drawerPaper,
+                  }}
+                  variant="permanent"
+                  open
+              >
+                  {drawer}
+              </Drawer>
             </Hidden>
         </nav>
+        
+        <Hidden smUp implementation="css">
+            <MobileDrawer/>
+        </Hidden>
+
+
         <main className={classes.content}>
+            
             <div className={classes.toolbar} />
             {/*Aqui va la seccion principal, se cargan los componentes */}
             <div>

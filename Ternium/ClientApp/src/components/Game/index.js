@@ -11,11 +11,6 @@ import Panel from "../Panel";
 
 
 const useStyles = makeStyles((theme) =>({
-    whiteBox:{
-        backgroundColor: "white",
-        color: "black",
-        height: "60vh",
-    },
     contentDiv:{
         marginLeft:"1rem",
         backgroundColor:"white",
@@ -33,7 +28,10 @@ const Game = ({classes}) =>{
         <div>
             <Panel>
                 <div className={classes.contentDiv}>
-                    <ResponsiveEmbed src='https://shellshock.io/' allowFullScreen/>
+                    <Container>
+                        <ResponsiveEmbed src='https://shellshock.io/' allowFullScreen/>
+                    </Container>
+                    
                     <div style={{textAlign:"center",padding:"1rem"}}>
                         <Button variant="danger" onClick={()=> history.push("/test")}>Ir a modo Examen</Button> 
                     </div>

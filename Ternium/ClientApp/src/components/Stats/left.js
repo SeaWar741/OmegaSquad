@@ -96,7 +96,7 @@ const Left = ({classes}) =>{
     useEffect(async () => {
 
         const result = await axios(
-            'https://localhost:5001/tiempodiasemanaactual?user='+username,
+            process.env.REACT_APP_SQL_ROUTE+'tiempodiasemanaactual?user='+username,
         );
         
         const dataDays = [
@@ -130,7 +130,7 @@ const Left = ({classes}) =>{
     useEffect(async () => {
 
         const result = await axios(
-            'https://localhost:5001/tiempohorasjugadas?user='+username,
+            process.env.REACT_APP_SQL_ROUTE+'tiempohorasjugadas?user='+username,
         );
         
         setHorast(Math.floor(result.data[0].tiempoHorasJugadas/60) + ":" +result.data[0].tiempoHorasJugadas%60);
@@ -140,7 +140,7 @@ const Left = ({classes}) =>{
     useEffect(async () => {
 
         const result = await axios(
-            'https://localhost:5001/numerojuegos?user='+username,
+            process.env.REACT_APP_SQL_ROUTE+'numerojuegos?user='+username,
         );
         
         setJuegos(result.data[0].numeroJuegos);
@@ -149,7 +149,7 @@ const Left = ({classes}) =>{
 
     useEffect(async () => {
         const result = await axios(
-          'https://localhost:5001/ScoresPractice',
+          process.env.REACT_APP_SQL_ROUTE+'ScoresPractice',
         );
         setPosicion(binarySearch(result.data,username));
     }, []);

@@ -75,7 +75,7 @@ const Config = ({classes}) =>{
 
     useEffect(async () => {
         const result = await axios(
-          'https://localhost:5001/loginlog?user='+username,
+          process.env.REACT_APP_SQL_ROUTE+'loginlog?user='+username,
         );
         setRows(result.data.reverse());
     }, []);

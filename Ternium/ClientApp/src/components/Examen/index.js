@@ -10,6 +10,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
+import createNew from '@iconify/icons-icons8/create-new';
 
 import axios from 'axios';
 
@@ -96,7 +97,7 @@ const Leaderboard = ({classes}) =>{
 
     useEffect(async() => {
         const result = await axios(
-            'https://localhost:5001/images',
+            process.env.REACT_APP_SQL_ROUTE+'images',
         );
         setImages(result.data);
     }, [])
@@ -117,7 +118,7 @@ const Leaderboard = ({classes}) =>{
                     <div className={classes.mainDiv}>
                         <div className={classes.header}>
                             <h1 style={{display: "inline"}}>
-                                <InlineIcon icon={baselineLeaderboard} style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                <InlineIcon icon={createNew} style={{ fontSize: 50,marginRight:"0.5rem" }} />
                                 Examen práctico
                             </h1>
                         </div>

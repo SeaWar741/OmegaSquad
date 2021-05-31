@@ -52,10 +52,10 @@ const Stats = ({classes}) =>{
         for (const chatarra of listChatarra) {
             console.log(chatarra)
             const resultBuenas = await axios(
-                'https://localhost:5001/buenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
+                process.env.REACT_APP_SQL_ROUTE+'buenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
             );
             const resultMalas = await axios(
-                'https://localhost:5001/nobuenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
+                process.env.REACT_APP_SQL_ROUTE+'nobuenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
             );
 
             setBuenas(buenas => [...buenas, {name: chatarra, buenas: resultBuenas.data[0].buenas}]);

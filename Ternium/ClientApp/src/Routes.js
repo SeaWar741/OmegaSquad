@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route,Router, Switch,Redirect } from 'react-router';
+import { BrowserRouter,Route,Router, Switch,Redirect } from 'react-router-dom';
 
 import { FetchData } from './components/FetchData';
 import history from './history';
@@ -48,7 +48,7 @@ const Routes = () => {
     
 
     return (
-        <Router history={history}>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Switch>
             <ProtectedRouteLogged loggedIn={username} exact path='/' component={Login} />
 
@@ -59,9 +59,8 @@ const Routes = () => {
             <ProtectedRoute loggedIn={username} path='/stats' component={Stats}/>
             <ProtectedRoute loggedIn={username} path='/settings' component={Config}/>
 
-            <Route path='/fetch-data' component={FetchData} />
           </Switch>
-        </Router> 
+      </BrowserRouter> 
     );
 };
 

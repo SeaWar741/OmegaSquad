@@ -8,6 +8,7 @@ import Panel from "../Panel";
 import Left from "./left";
 import { InlineIcon } from '@iconify/react';
 import sortRight from '@iconify/icons-icons8/sort-right';
+import Grid from '@material-ui/core/Grid';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer,Legend  } from 'recharts';
 import RecordVoiceOverOutlinedIcon from '@material-ui/icons/RecordVoiceOverOutlined';
 
@@ -17,15 +18,9 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) =>({
-    mainDiv:{
-        backgroundImage: "url('./img/backgrounds/Login.jpg')",
-        backgroundSize: "cover",
-        backgroundRepeat: "noRepeat",
-        height: "100vh",
-    },
     kpisDiv:{
         backgroundColor:"white",
-        padding:"2rem"
+        height: "100%",
     }
 
 }))
@@ -59,10 +54,10 @@ const Home = ({classes}) =>{
         for (const chatarra of listChatarra) {
             console.log(chatarra)
             const resultBuenas = await axios(
-                'https://localhost:5001/buenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
+                process.env.REACT_APP_SQL_ROUTE+'buenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
             );
             const resultMalas = await axios(
-                'https://localhost:5001/nobuenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
+                process.env.REACT_APP_SQL_ROUTE+'nobuenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
             );
 
             setBuenas(buenas => [...buenas, {name: chatarra, buenas: resultBuenas.data[0].buenas}]);
@@ -72,28 +67,27 @@ const Home = ({classes}) =>{
 
     }, []);
 
-    console.log(buenas)
-    console.log(malas)
-    console.log(classification)
+    //console.log(buenas)
+    //console.log(malas)
+    //console.log(classification)
 
     return (
         <div>
             <Panel>
-                <Row>
-                    <Col>
+                <Grid container spacing={3} alignItems="stretch">
+                    <Grid item xs={12} sm={6}>
                         <Left/>
-                    </Col>
-                    <Col className={classes.kpisDiv}>
-                        <Container>
-                            <div>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Container className={classes.kpisDiv}>
+                            <div style={{padding:"2rem"}}>
                                 <h1 style={{paddingBottom:"1rem"}}>
                                     <RecordVoiceOverOutlinedIcon style={{ fontSize: 50,marginRight:"0.5rem" }}/>
                                     Precisión de clasificación
                                 </h1>
                                 <div style={{ width: '100%', height: 600}}>
+                                    <ResponsiveContainer>
                                         <BarChart 
-                                            width={600} 
-                                            height={600} 
                                             data={classification} 
                                             layout="vertical"
                                             fontSize={12}
@@ -110,11 +104,12 @@ const Home = ({classes}) =>{
                                             <Legend />
                                             <Bar dataKey="buenas" fill="#8884d8" fill="url(#buenasColor)"/>
                                         </BarChart>
+                                    </ResponsiveContainer>
                                 </div>
                             </div>
                         </Container>
-                    </Col>
-                </Row>
+                    </Grid>
+                </Grid>
             </Panel>
         </div>
     );

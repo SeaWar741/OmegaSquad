@@ -7,10 +7,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Panel from "../Panel";
 
 import { InlineIcon } from '@iconify/react';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory,Link } from 'react-router-dom';
 import sortRight from '@iconify/icons-icons8/sort-right';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip, Legend,ResponsiveContainer } from 'recharts';
+import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
 
@@ -30,6 +31,9 @@ const useStyles = makeStyles((theme) =>({
         color:"white",
         padding:"2rem",
         textAlign:"center",
+        '&:hover': {
+            textDecoration: "none"
+        },
     },
     chartDiv:{
         backgroundColor:"white",
@@ -49,8 +53,6 @@ const useStyles = makeStyles((theme) =>({
 const Left = ({classes}) =>{
     classes = useStyles();
 
-    const history = useHistory();
-
     const username = useSelector(state => state.usernameState.username)
 
     const [horas,setHoras] = useState([]);
@@ -58,7 +60,7 @@ const Left = ({classes}) =>{
     useEffect(async () => {
 
         const result = await axios(
-            'https://localhost:5001/tiempodiasemanaactual?user='+username,
+            process.env.REACT_APP_SQL_ROUTE+'tiempodiasemanaactual?user='+username,
         );
 
         const dataDays = [
@@ -90,17 +92,17 @@ const Left = ({classes}) =>{
 
     }, []);
 
-    console.log(horas);
+    //console.log(horas);
 
     return (
         <div>
             <Container>
-                <Row>
-                    <Col>
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
                         <div className={classes.chartDiv}>
                             <h1 style={{paddingBottom:"1rem"}}>
                                 <HourglassEmptyIcon style={{ fontSize: 50,marginRight:"0.5rem" }} />
-                                 Horas de juego:
+                                 Horas de juego
                             </h1>
                             <div style={{ width: '100%', height: 300 }}>
                                 <ResponsiveContainer>
@@ -120,20 +122,25 @@ const Left = ({classes}) =>{
                             </div>
                             
                         </div>
-                    </Col>
-                </Row>
-                <Row style={{paddingTop:"2rem",pointer:"drag"}}>
-                    <Col>
-                        <a href={"/game"} className={classes.buttonPlay}> 
-                            <div className={classes.playCard}>
-                                <h1 style={{fontSize:"8vw",paddingTop:"5vh",paddingBottom:"5vh"}}>
-                                    <InlineIcon icon={sortRight}/>
-                                    Play
-                                </h1>
-                            </div>
-                        </a>
-                    </Col>
-                </Row>
+                    </Grid>
+                
+                    <Grid item xs={12} style={{pointer:"drag"}}>
+                        <Link to="/game" replace
+   style={{
+           textDecoration: 'none'
+          }}
+   >
+                            <a  className={classes.buttonPlay}> 
+                                <div className={classes.playCard}>
+                                    <h1 style={{fontSize:"8vw",paddingTop:"5vh",paddingBottom:"5vh"}}>
+                                        <InlineIcon icon={sortRight}/>
+                                        Play
+                                    </h1>
+                                </div>
+                            </a>
+                        </Link>
+                    </Grid>
+                </Grid>
             </Container>
         </div>
     );
