@@ -19,6 +19,7 @@ import axios from 'axios';
 import Panel from "../Panel";
 import { Icon, InlineIcon } from '@iconify/react';
 import baselineLeaderboard from '@iconify-icons/ic/baseline-leaderboard';
+import diploma1 from '@iconify/icons-icons8/diploma-1';
 
 
 const useStyles = makeStyles((theme) =>({
@@ -50,14 +51,26 @@ const useStyles = makeStyles((theme) =>({
     formControl2: {
         margin: theme.spacing(1),
         minWidth: 120,
-        position: "absolute",
-        right: "250px"
+        [theme.breakpoints.up('sm')]:{
+            position:"absolute",
+            
+        },
+        [theme.breakpoints.down('sm')]:{
+            position:"relative",
+            right: "250px"
+        },
+        
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
     header:{
-        display:"inline-block"
+        [theme.breakpoints.up('sm')]:{
+            display:"inline-block"
+        },
+        [theme.breakpoints.down('sm')]:{
+            display:"flex"
+        }
     }
 }))
 
@@ -247,23 +260,23 @@ const Leaderboard = ({classes}) =>{
                     <div className={classes.mainDiv}>
                         <div className={classes.header}>
                             <h1 style={{display: "inline"}}>
-                                <InlineIcon icon={baselineLeaderboard} style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                <InlineIcon icon={diploma1} style={{ fontSize: 50,marginRight:"0.5rem" }} />
                                 Leaderboard
                             </h1>
                             {/**
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id="demo-simple-select-label">Categorías</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={categoria}
-                                    onChange={handleChangeCategoria}
-                                >
-                                    {categorias.map((cat) => (
-                                        <MenuItem value={cat}>{cat}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel id="demo-simple-select-label">Categorías</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={categoria}
+                                        onChange={handleChangeCategoria}
+                                    >
+                                        {categorias.map((cat) => (
+                                            <MenuItem value={cat}>{cat}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                              */}
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="demo-simple-select-label">Tipo</InputLabel>

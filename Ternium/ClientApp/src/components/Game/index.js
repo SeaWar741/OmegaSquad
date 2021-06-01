@@ -31,10 +31,6 @@ const Game = ({classes}) =>{
                     <Container>
                         <ResponsiveEmbed src='https://shellshock.io/' allowFullScreen/>
                     </Container>
-                    
-                    <div style={{textAlign:"center",padding:"1rem"}}>
-                        <Button variant="danger" onClick={()=> history.push("/test")}>Ir a modo Examen</Button> 
-                    </div>
                 </div>
             </Panel>
         </div>

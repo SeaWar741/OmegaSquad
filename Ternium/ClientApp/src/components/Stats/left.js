@@ -10,6 +10,9 @@ import { InlineIcon } from '@iconify/react';
 import sortRight from '@iconify/icons-icons8/sort-right';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip, Legend,ResponsiveContainer,AreaChart,Area,PieChart, Pie, Sector, Cell } from 'recharts';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { FixedSizeList } from 'react-window';
 import RecordVoiceOverOutlinedIcon from '@material-ui/icons/RecordVoiceOverOutlined';
 import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -17,6 +20,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import Paper from '@material-ui/core/Paper';
+
+import PropTypes from 'prop-types';
 
 import axios from 'axios';
 
@@ -49,7 +54,25 @@ const useStyles = makeStyles((theme) =>({
         }
 
     }
-}))
+}));
+
+function renderRow(props) {
+    const { index, style } = props;
+  
+    return (
+      <ListItem button style={style} key={index}>
+        <ListItemText primary={`Medalla ${index + 1}`} />
+      </ListItem>
+    );
+  }
+  
+  renderRow.propTypes = {
+    index: PropTypes.number.isRequired,
+    style: PropTypes.object.isRequired,
+  };
+  
+
+
 
 const data2 = [
     { name: 'Group A', value: 400 },
@@ -206,7 +229,9 @@ const Left = ({classes}) =>{
                                     </Grid>
                                     <Grid item xs={6}>
                                         <div style={{textAlign:"center"}}>
-                                            Tabla con logros
+                                            <FixedSizeList height={200} width={300} itemSize={46} itemCount={200}>
+                                                {renderRow}
+                                            </FixedSizeList>
                                         </div>
                                     </Grid>
                                 </Grid>
