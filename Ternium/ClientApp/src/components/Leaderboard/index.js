@@ -45,8 +45,27 @@ const useStyles = makeStyles((theme) =>({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
-        position: "absolute",
-        right: "100px"
+        [theme.breakpoints.up('sm')]:{
+            position: "absolute",
+            right: "100px"
+        },
+        [theme.breakpoints.down('sm')]:{
+            position: "absolute",
+            display:"none"
+            
+        },
+    },
+    formControl3:{
+        margin: theme.spacing(1),
+        minWidth: 120,
+        [theme.breakpoints.up('sm')]:{
+            display:"none"
+            
+        },
+        [theme.breakpoints.down('sm')]:{
+            display:"block"
+            
+        },
     },
     formControl2: {
         margin: theme.spacing(1),
@@ -75,7 +94,7 @@ const useStyles = makeStyles((theme) =>({
 }))
 
 
-//Comparer Function    
+//Ordenar lista    
 function GetSortOrder(prop) {    
     return function(a, b) {    
         if (a[prop] > b[prop]) {    
@@ -87,12 +106,14 @@ function GetSortOrder(prop) {
     }    
 } 
 
+//Estructura de leaderboard de Examen
 const columnsExamen = [
     { id: 'posicion', label: 'Posición'},
     { id: 'username', label: 'Usuario'},
     { id: 'score', label: 'Puntos'}
 ];
 
+//Estructura de leaderboard de Practica
 const columnsPractica = [
     { id: 'ranking', label: 'Posición'},
     {
@@ -108,10 +129,12 @@ const columnsPractica = [
 
 ];
 
+//Se hace un fill a las filas del examen
 function createExamenData(posicion, username, score) {
     return { posicion, username, score};
 }
-  
+
+//Aqui se guardan las filas
 const rows = [
 ];
 
@@ -119,14 +142,14 @@ const rows = [
 const Leaderboard = ({classes}) =>{
     classes = useStyles();
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [categoria, setCategoria] = React.useState('');
-    const [tipo, setTipo] = React.useState('Examen');
-    const [categorias,setCategorias] = React.useState([]);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [categoria, setCategoria] = useState('');
+    const [tipo, setTipo] = useState('Examen');
+    const [categorias,setCategorias] = useState([]);
 
-    const [examenes, setExamenes] = React.useState([]);
-    const [practicas, setPracticas] = React.useState([]);
+    const [examenes, setExamenes] = useState([]);
+    const [practicas, setPracticas] = useState([]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -158,7 +181,6 @@ const Leaderboard = ({classes}) =>{
         const result = await axios(
           process.env.REACT_APP_SQL_ROUTE+'scores',
         );
-        //setExamenes(result.data.sort(GetSortOrder("score")).reverse());
         var ex = [];
         var examenesApi = result.data.sort(GetSortOrder("score")).reverse();
         examenesApi.forEach(function(item,index) {
@@ -177,8 +199,10 @@ const Leaderboard = ({classes}) =>{
         setPracticas(result.data);
     }, []);
 
-    console.log(practicas)
+    //console.log(practicas)
 
+
+    //Componente Examen
     const ExamenTableComponent = ({classes}) =>{
         return (
             <Table stickyHeader aria-label="sticky table">
@@ -215,6 +239,7 @@ const Leaderboard = ({classes}) =>{
         );
     };
 
+    //Componente Practica
     const PracticaTableComponent = ({classes}) =>{
         return (
             <Table stickyHeader aria-label="sticky table">
@@ -252,7 +277,6 @@ const Leaderboard = ({classes}) =>{
     };
 
 
-
     return (
         <div>
             <Panel>
@@ -263,22 +287,22 @@ const Leaderboard = ({classes}) =>{
                                 <InlineIcon icon={diploma1} style={{ fontSize: 50,marginRight:"0.5rem" }} />
                                 Leaderboard
                             </h1>
-                            {/**
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel id="demo-simple-select-label">Categorías</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={categoria}
-                                        onChange={handleChangeCategoria}
-                                    >
-                                        {categorias.map((cat) => (
-                                            <MenuItem value={cat}>{cat}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                             */}
                             <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={tipo}
+                                    onChange={handleChangeTipo}
+        
+                                >
+                                    <MenuItem value={"Examen"}>Exámen</MenuItem>
+                                    <MenuItem value={"Practica"}>Práctica</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <div className={classes.mobileSelector}>
+                            <FormControl className={classes.formControl3}>
                                 <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -294,11 +318,7 @@ const Leaderboard = ({classes}) =>{
                         </div>
                         <div className={classes.tableDiv}>
                             <TableContainer className={classes.container}>
-                                    {tipo=="Examen"?
-                                        <ExamenTableComponent/>
-                                        :<PracticaTableComponent/>
-                                    }
-                                    
+                                {tipo=="Examen"?<ExamenTableComponent/>:<PracticaTableComponent/>}
                             </TableContainer>
                             <TablePagination
                                 component="div"

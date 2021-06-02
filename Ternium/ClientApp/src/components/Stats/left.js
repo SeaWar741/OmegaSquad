@@ -1,27 +1,20 @@
 import React,{useState,useCallback,useEffect}  from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container,Row,Col,Card,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-import Panel from "../Panel";
+import EqualizerIcon from '@material-ui/icons/Equalizer';
+import { XAxis,YAxis,CartesianGrid,Tooltip, Legend,ResponsiveContainer,AreaChart,Area } from 'recharts';
 
-import { InlineIcon } from '@iconify/react';
-import sortRight from '@iconify/icons-icons8/sort-right';
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
-import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip, Legend,ResponsiveContainer,AreaChart,Area,PieChart, Pie, Sector, Cell } from 'recharts';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { FixedSizeList } from 'react-window';
-import RecordVoiceOverOutlinedIcon from '@material-ui/icons/RecordVoiceOverOutlined';
 import Grid from '@material-ui/core/Grid';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import Paper from '@material-ui/core/Paper';
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
+import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 
-import PropTypes from 'prop-types';
+
 
 import axios from 'axios';
 
@@ -29,13 +22,6 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) =>({
-    mainDiv:{
-        backgroundImage: "url('./img/backgrounds/Login.jpg')",
-        backgroundSize: "cover",
-        backgroundRepeat: "noRepeat",
-        height: "100vh",
-        color:"white"
-    },
     playCard:{
         background: "linear-gradient(66deg, rgba(153,250,151,1) 4%, rgba(0,179,81,1) 100%)",
         color:"white",
@@ -47,41 +33,32 @@ const useStyles = makeStyles((theme) =>({
         padding:"2rem",
         pointer:"pointer"
     },
-    buttonPlay:{
-        pointer:"pointer",
-        "&:hover, &:focus, &:active": {
-            textDecorationLine: "none"
-        }
-
+    demo: {
+        backgroundColor: theme.palette.background.paper,
+        overflowY: "scroll",
+        height:"25vh"
+    },
+    title: {
+        margin: theme.spacing(4, 0, 2),
     }
 }));
 
-function renderRow(props) {
-    const { index, style } = props;
-  
-    return (
-      <ListItem button style={style} key={index}>
-        <ListItemText primary={`Medalla ${index + 1}`} />
-      </ListItem>
+const range = (min, max) => {
+    const arr = Array(max - min + 1)
+      .fill(0)
+      .map((_, i) => i + min);
+    return arr;
+}
+
+function generate(element) {
+    return range(1,200).map((value) =>
+      React.cloneElement(element, {
+        key: value,
+      }),
     );
-  }
-  
-  renderRow.propTypes = {
-    index: PropTypes.number.isRequired,
-    style: PropTypes.object.isRequired,
-  };
-  
+}
 
 
-
-const data2 = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 },
-    { name: 'Group D', value: 200 },
-];
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 function binarySearch(sortedArray, inusername){
     let start = 0;
@@ -113,9 +90,14 @@ const Left = ({classes}) =>{
     const [horas,setHoras] = useState([]);
     const [horast,setHorast] = useState(0);
     const [juegos,setJuegos] = useState(0);
+    const [streaks,setStreaks] = useState(0);
     const [posicion, setPosicion] = useState();
 
+    const [dense, setDense] = useState(false);
+    const [secondary, setSecondary] = useState(false);
 
+
+    //Horas de juego
     useEffect(async () => {
 
         const result = await axios(
@@ -150,6 +132,7 @@ const Left = ({classes}) =>{
 
     }, []);
 
+    //Tiempo total de horas
     useEffect(async () => {
 
         const result = await axios(
@@ -160,6 +143,7 @@ const Left = ({classes}) =>{
 
     }, []);
 
+    //Numero de Juegos
     useEffect(async () => {
 
         const result = await axios(
@@ -170,6 +154,7 @@ const Left = ({classes}) =>{
 
     }, []);
 
+    //Posicion global en examenes
     useEffect(async () => {
         const result = await axios(
           process.env.REACT_APP_SQL_ROUTE+'ScoresPractice',
@@ -177,19 +162,26 @@ const Left = ({classes}) =>{
         setPosicion(binarySearch(result.data,username));
     }, []);
 
+    //Medallas
+    useEffect(async () => {
+        const result = await axios(
+          process.env.REACT_APP_SQL_ROUTE+'numerojuegos?user='+username,
+        );
+        setStreaks(result.data[0].numeroJuegos);
+    }, []);
+
 
 
     return (
         <div>
-            <Container style={{ backgroundColor:"white !important"}}>
-                <Row>
-                    <Col>
+            <Grid container spacing={3} style={{ backgroundColor:"white !important"}}>
+                    <Grid item xs={12}>
                         <div className={classes.chartDiv}>
                             <h1 style={{paddingBottom:"1rem"}}>
-                                <HourglassEmptyIcon style={{ fontSize: 50,marginRight:"0.5rem" }} />
-                                 Estadísticas generales:
+                                <EqualizerIcon style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                 Estadísticas generales
                             </h1>
-                            <div style={{ width: '100%', height: 300, padding:"2rem" }}>
+                            <div style={{ width: '100%', height: 300}}>
                                 <ResponsiveContainer>
                                     <AreaChart data={horas}>
                                         <defs>
@@ -200,46 +192,72 @@ const Left = ({classes}) =>{
                                         </defs>
                                         <XAxis dataKey="name" />
                                         <YAxis dataKey="HorasDeJuego" />
-                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <CartesianGrid strokeDasharray="3 3"/>
                                         <Tooltip />
                                         <Legend />
                                         <Area type="monotone" fillOpacity={0.6}  dataKey="HorasDeJuego" fill="url(#colorHours)" />
                                     </AreaChart>
                                 </ResponsiveContainer>
                             </div>
-                            <div style={{height:300,marginTop:"1rem"}}>
+                            <div style={{marginTop:"1rem",padding:"2rem"}}>
                                 <Grid container spacing={3}>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} md={6}>
                                         <div>
                                             <strong>{horast}</strong>
                                             <br/>
                                             Horas de juego totales
                                             <br/><br/>
 
-                                            <strong>{juegos}</strong>
+                                            <strong>{juegos+" | "+juegos}</strong>
                                             <br/>
-                                            Juegos completados
+                                            Juegos y examenes completados
                                             <br/><br/>
 
                                             <strong>{posicion !== undefined ? "#"+posicion:"N/A"}</strong>
                                             <br/>
                                             Posición global
                                             <br/><br/>
+
+                                            <strong>{streaks}</strong>
+                                            <br/>
+                                            Streaks examen
+                                            <br/><br/>
+
                                         </div>
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} md={6}>
                                         <div style={{textAlign:"center"}}>
+                                            {/*
                                             <FixedSizeList height={200} width={300} itemSize={46} itemCount={200}>
                                                 {renderRow}
                                             </FixedSizeList>
+                                            */}
+                                            <h3 style={{textAlign:"left",fontWeight:"600"}}>
+                                                <SportsEsportsIcon style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                                Medallas
+                                            </h3>
+                                            <div className={classes.demo}>
+                                                <List dense={dense}>
+                                                {generate(
+                                                    <ListItem>
+                                                    <ListItemIcon>
+                                                        <EmojiEventsIcon/>
+                                                    </ListItemIcon>
+                                                    <ListItemText
+                                                        primary="Medalla Random"
+                                                        secondary={secondary ? 'Secondary text' : null}
+                                                    />
+                                                    </ListItem>,
+                                                )}
+                                                </List>
+                                            </div>
                                         </div>
                                     </Grid>
                                 </Grid>
                             </div>
                         </div>
-                    </Col>
-                </Row>
-            </Container>
+                    </Grid>
+            </Grid>
         </div>
     );
 }

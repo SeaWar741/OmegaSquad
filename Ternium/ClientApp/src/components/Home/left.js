@@ -96,7 +96,6 @@ const Left = ({classes}) =>{
 
     return (
         <div>
-            <Container>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <div className={classes.chartDiv}>
@@ -125,11 +124,7 @@ const Left = ({classes}) =>{
                     </Grid>
                 
                     <Grid item xs={12} style={{pointer:"drag"}}>
-                        <Link to="/game" replace
-   style={{
-           textDecoration: 'none'
-          }}
-   >
+                        <Link to="/game" replace style={{textDecoration: 'none'}}>
                             <a  className={classes.buttonPlay}> 
                                 <div className={classes.playCard}>
                                     <h1 style={{fontSize:"8vw",paddingTop:"5vh",paddingBottom:"5vh"}}>
@@ -141,7 +136,7 @@ const Left = ({classes}) =>{
                         </Link>
                     </Grid>
                 </Grid>
-            </Container>
+
         </div>
     );
 }

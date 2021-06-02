@@ -9,6 +9,7 @@ import sortRight from '@iconify/icons-icons8/sort-right';
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer,Legend  } from 'recharts';
 import RecordVoiceOverOutlinedIcon from '@material-ui/icons/RecordVoiceOverOutlined';
+import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
 
@@ -19,15 +20,9 @@ import { useSelector } from 'react-redux';
 import Left from './left';
 
 const useStyles = makeStyles((theme) =>({
-    mainDiv:{
-        backgroundImage: "url('./img/backgrounds/Login.jpg')",
-        backgroundSize: "cover",
-        backgroundRepeat: "noRepeat",
-        height: "100vh",
-    },
     kpisDiv:{
         backgroundColor:"white",
-        padding:"2rem"
+        height: "100%",
     }
 
 }))
@@ -65,28 +60,27 @@ const Stats = ({classes}) =>{
 
     }, []);
 
-    console.log(buenas)
-    console.log(malas)
-    console.log(classification)
+    //console.log(buenas)
+    //console.log(malas)
+    //console.log(classification)
 
     return (
         <div>
             <Panel>
-                <Row>
-                    <Col>
+                <Grid container spacing={3} alignItems="stretch">
+                    <Grid item xs={12} sm={6}>
                         <Left/>
-                    </Col>
-                    <Col className={classes.kpisDiv}>
-                        <Container>
-                            <div>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Container className={classes.kpisDiv}>
+                            <div style={{padding:"2rem"}}>
                                 <h1 style={{paddingBottom:"1rem"}}>
                                     <RecordVoiceOverOutlinedIcon style={{ fontSize: 50,marginRight:"0.5rem" }}/>
                                     Precisión de clasificación
                                 </h1>
                                 <div style={{ width: '100%', height: 600}}>
+                                    <ResponsiveContainer>
                                         <BarChart 
-                                            width={600} 
-                                            height={600} 
                                             data={classification} 
                                             layout="vertical"
                                             fontSize={12}
@@ -103,11 +97,12 @@ const Stats = ({classes}) =>{
                                             <Legend />
                                             <Bar dataKey="buenas" fill="#8884d8" fill="url(#buenasColor)"/>
                                         </BarChart>
+                                    </ResponsiveContainer>
                                 </div>
                             </div>
                         </Container>
-                    </Col>
-                </Row>
+                    </Grid>
+                </Grid>
             </Panel>
         </div>
     );
