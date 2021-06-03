@@ -51,7 +51,7 @@ const Home = ({classes}) =>{
 
     const fetchData = async() =>{
         for (const chatarra of listChatarra) {
-            console.log(chatarra)
+            //console.log(chatarra)
             const resultBuenas = await axios(
                 process.env.REACT_APP_SQL_ROUTE+'buenas?user='+username+'&tipo='+chatarra+'&categoria='+categoria,
             );

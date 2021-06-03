@@ -32,7 +32,7 @@ namespace Ternium.Controllers
 
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conexion;
-                cmd.CommandText = "SELECT user, UNIX_TIMESTAMP(date) as date FROM bitacora WHERE user = '"+user+"'";
+                cmd.CommandText = "SELECT (dayofweek(date)+5)%7+1 dayofweek, user, UNIX_TIMESTAMP(date) as date  FROM bitacora WHERE user='"+user+"' AND yearweek(DATE(date), 1) = yearweek(curdate(), 1)";
 
                 
                 Models.LoginLog usr1 = new Models.LoginLog();

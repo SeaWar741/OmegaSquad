@@ -10,10 +10,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import { Icon, InlineIcon } from '@iconify/react';
-import baselineLeaderboard from '@iconify-icons/ic/baseline-leaderboard';
-import {Redirect } from 'react-router';
+import Settings from '@iconify-icons/ic/settings';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import axios from 'axios';
  
@@ -47,6 +46,7 @@ const useStyles = makeStyles((theme) =>({
     loginLog:{
         marginBottom:"2rem",
         overflowY:"auto",
+        height:"50vh"
     },
     userInfo:{
         textAlign:"left",
@@ -58,17 +58,14 @@ const useStyles = makeStyles((theme) =>({
 const Config = ({classes}) =>{
     classes = useStyles();
 
+    const [rows,setRows] = useState([]);
+    
+    const username = useSelector(state => state.usernameState.username)
+
     const reload=()=>{
         localStorage.clear();
         window.location.reload();
     }
-
-    const [rows,setRows] = useState([]);
-    
-
-    const username = useSelector(state => state.usernameState.username)
-    const usernameCode = useSelector(state => state.usernameState.usernameCode)
-    const usernameToken = useSelector(state => state.usernameState.usernameToken)
 
     const fetchData = async() =>{
         const result = await axios(
@@ -76,7 +73,6 @@ const Config = ({classes}) =>{
         );
         setRows(result.data.reverse());
     }
-
 
     useEffect(() => {
         fetchData();
@@ -122,7 +118,7 @@ const Config = ({classes}) =>{
                     <div className={classes.mainDiv}>
                         <div className={classes.header}>
                             <h1 style={{display: "inline"}}>
-                                <InlineIcon icon={baselineLeaderboard} style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                <InlineIcon icon={Settings} style={{ fontSize: 50,marginRight:"0.5rem" }} />
                                 Configuración de cuenta
                             </h1>
                         </div>
@@ -133,7 +129,7 @@ const Config = ({classes}) =>{
                                         <Table className={classes.table} aria-label="simple table">
                                             <TableHead>
                                             <TableRow>
-                                                <TableCell>Fechas login</TableCell>
+                                                <TableCell>Historial de logins semanal</TableCell>
                                             </TableRow>
                                             </TableHead>
                                             <TableBody>
@@ -149,8 +145,6 @@ const Config = ({classes}) =>{
                            </div>
                            <div className={classes.userInfo}>
                                 <h4> <strong>Username:</strong><br/> {username}</h4>
-                                <h4> <strong>UsernameCode:</strong><br/> {usernameCode}</h4>
-                                <h4> <strong>UsernameToken:</strong><br/> {usernameToken}</h4>
                            </div>
                            <br/>
                            <Button variant="danger" onClick={reload}>Log out</Button>

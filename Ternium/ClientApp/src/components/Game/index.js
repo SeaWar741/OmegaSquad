@@ -3,6 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Container from '@material-ui/core/Container';
+import { Icon, InlineIcon } from '@iconify/react';
+import controller from '@iconify/icons-icons8/controller';
+import resizeFourDirections from '@iconify/icons-icons8/resize-four-directions';
+import Button from '@material-ui/core/Button';
 
 import ResponsiveEmbed from 'react-responsive-embed';
 
@@ -23,7 +27,10 @@ const useStyles = makeStyles((theme) =>({
         margin: "0",
         position: "absolute",
         top: "50%"
-    }
+    },
+    header:{
+        display:"inline-block"
+    },
 }))
 
 
@@ -58,6 +65,15 @@ const Game = ({classes}) =>{
         <div>
             <Panel>
                 <div className={classes.contentDiv} >
+                    <div className={classes.header}>
+                        <h1 style={{display: "inline"}}>
+                            <InlineIcon icon={controller} style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                            Modo Práctica
+                        </h1>
+                        <Button onClick={handleOnClickFullscreen}>
+                            <InlineIcon icon={resizeFourDirections} style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                        </Button>
+                    </div>
                     <Container>
                         <Unity
                             unityContext={unityContext}
@@ -69,7 +85,6 @@ const Game = ({classes}) =>{
                             }}
                         />
                     </Container>
-                    <button onClick={handleOnClickFullscreen}>Fullscreen</button>
                 </div>
             </Panel>
         </div>
