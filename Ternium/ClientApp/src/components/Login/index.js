@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from '@material-ui/core/Card';
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import history from "../../history";
+import { Redirect } from "react-router-dom";
 
 //Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -114,6 +114,12 @@ const Login = ({classes}) =>{
         console.log({ Logins: data, loading: false });
     };
 
+    const redirecting = ()=>{
+        return(
+            <Redirect to={"/home"}/>
+        );
+    }
+
     const addLogin = async() =>{
 
         //let mySqlTimestamp = new Date().toISOString();
@@ -131,13 +137,13 @@ const Login = ({classes}) =>{
                 //console.log(res);
 
                 if(res.user !="Bad Request"){
-                    console.log(res.token);
+                    //console.log(res.token);
                     dispatch(setUsernameToken(res.token))
-                    console.log(res.user);
+                    //console.log(res.user);
                     dispatch(setUsernameCode(res.user))
     
                     
-                    console.log("Adding to DB");
+                    //console.log("Adding to DB");
     
     
                     //Login Logger
@@ -146,11 +152,11 @@ const Login = ({classes}) =>{
                         headers:{'Content-type':'application/json'}
                     }).then(r=>r.json().then(res=>console.log("Uploaded")));
                     dispatch(setUsername(usernameText))
-    
-                    history.push("/home");
+                    redirecting();
+                    
                 }else{
-                    console.log(res.user)
-                    console.log("Usuario y/o contraseña incorrectos");
+                    //console.log(res.user)
+                    //console.log("Usuario y/o contraseña incorrectos");
                     alert("Usuario y/o contraseña incorrectos");
                 }
             }));

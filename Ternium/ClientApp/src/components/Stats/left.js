@@ -96,10 +96,7 @@ const Left = ({classes}) =>{
     const [dense, setDense] = useState(false);
     const [secondary, setSecondary] = useState(false);
 
-
-    //Horas de juego
-    useEffect(async () => {
-
+    const getJuegos = async() =>{
         const result = await axios(
             process.env.REACT_APP_SQL_ROUTE+'tiempodiasemanaactual?user='+username,
         );
@@ -129,48 +126,45 @@ const Left = ({classes}) =>{
 
 
         setHoras(dataDays);
+    };
 
-    }, []);
-
-    //Tiempo total de horas
-    useEffect(async () => {
-
+    const getHoras = async() =>{
         const result = await axios(
             process.env.REACT_APP_SQL_ROUTE+'tiempohorasjugadas?user='+username,
         );
         
         setHorast(Math.floor(result.data[0].tiempoHorasJugadas/60) + ":" +result.data[0].tiempoHorasJugadas%60);
+    }
 
-    }, []);
-
-    //Numero de Juegos
-    useEffect(async () => {
-
+    const getNJuegos = async() =>{
         const result = await axios(
             process.env.REACT_APP_SQL_ROUTE+'numerojuegos?user='+username,
         );
         
         setJuegos(result.data[0].numeroJuegos);
+    }
 
-    }, []);
-
-    //Posicion global en examenes
-    useEffect(async () => {
+    const getPosExamenes = async() =>{
         const result = await axios(
-          process.env.REACT_APP_SQL_ROUTE+'ScoresPractice',
-        );
-        setPosicion(binarySearch(result.data,username));
-    }, []);
+            process.env.REACT_APP_SQL_ROUTE+'ScoresPractice',
+          );
+          setPosicion(binarySearch(result.data,username));
+    }
 
-    //Medallas
-    useEffect(async () => {
+    const getMedallas = async() =>{
         const result = await axios(
-          process.env.REACT_APP_SQL_ROUTE+'numerojuegos?user='+username,
-        );
-        setStreaks(result.data[0].numeroJuegos);
+            process.env.REACT_APP_SQL_ROUTE+'numerojuegos?user='+username,
+          );
+          setStreaks(result.data[0].numeroJuegos);
+    }
+
+    useEffect(() => {
+        getJuegos();
+        getHoras();
+        getNJuegos();
+        getMedallas();
+
     }, []);
-
-
 
     return (
         <div>

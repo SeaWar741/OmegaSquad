@@ -16,7 +16,7 @@ import createNew from '@iconify/icons-icons8/create-new';
 import barChart  from '@iconify/icons-icons8/bar-chart';
 import services from '@iconify/icons-icons8/services';
 import trophy from '@iconify/icons-icons8/trophy';
-import { useHistory,Link, NavLink } from 'react-router-dom';
+import {NavLink } from 'react-router-dom';
 
 import './panel.css';
 
@@ -110,13 +110,12 @@ function Panel(props) {
   const username = useSelector(state => state.usernameState.username)
   const nameLetter = username.charAt(0).toUpperCase();
 
-  console.log(nameLetter)
+  //console.log(nameLetter)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const history = useHistory();
 
   const drawer = (
     <div>

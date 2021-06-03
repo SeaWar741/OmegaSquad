@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter,Route,Router, Switch,Redirect } from 'react-router-dom';
 
 import { FetchData } from './components/FetchData';
-import history from './history';
 
 
 import Login from './components/Login/';

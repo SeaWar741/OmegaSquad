@@ -168,18 +168,17 @@ const Leaderboard = ({classes}) =>{
         setTipo(event.target.value);
     };   
 
-    useEffect(async () => {
+    const getCategorias = async() =>{
         const result = await axios(
-          process.env.REACT_APP_SQL_ROUTE+'UserTypes',
+            process.env.REACT_APP_SQL_ROUTE+'UserTypes',
         );
         setCategorias(result.data);
         setCategoria(result.data[0]);
-        
-    }, []);
+    }
 
-    useEffect(async () => {
+    const getExamenes = async() =>{
         const result = await axios(
-          process.env.REACT_APP_SQL_ROUTE+'scores',
+            process.env.REACT_APP_SQL_ROUTE+'scores',
         );
         var ex = [];
         var examenesApi = result.data.sort(GetSortOrder("score")).reverse();
@@ -189,16 +188,21 @@ const Leaderboard = ({classes}) =>{
             ex.push(createExamenData(index+1, item.username, item.score))
         });
         setExamenes(ex);
+  
+    }
 
-    }, []);
-
-    useEffect(async () => {
+    const getPracticas = async() =>{
         const result = await axios(
-          process.env.REACT_APP_SQL_ROUTE+'ScoresPractice',
+            process.env.REACT_APP_SQL_ROUTE+'ScoresPractice',
         );
         setPracticas(result.data);
+    }
+    
+    useEffect(() => {
+        getCategorias();
+        getExamenes();
+        getPracticas();
     }, []);
-
     //console.log(practicas)
 
 

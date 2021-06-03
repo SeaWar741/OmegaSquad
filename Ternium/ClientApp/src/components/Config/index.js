@@ -70,14 +70,16 @@ const Config = ({classes}) =>{
     const usernameCode = useSelector(state => state.usernameState.usernameCode)
     const usernameToken = useSelector(state => state.usernameState.usernameToken)
 
-    
-
-
-    useEffect(async () => {
+    const fetchData = async() =>{
         const result = await axios(
-          process.env.REACT_APP_SQL_ROUTE+'loginlog?user='+username,
+            process.env.REACT_APP_SQL_ROUTE+'loginlog?user='+username,
         );
         setRows(result.data.reverse());
+    }
+
+
+    useEffect(() => {
+        fetchData();
     }, []);
 
     const formatedDate = (unix_timestamp) =>{
@@ -111,7 +113,8 @@ const Config = ({classes}) =>{
         return fechaFinal;
     }
 
-    console.log(rows)
+    //console.log(rows)
+    
     return (
         <div>
             <Panel>

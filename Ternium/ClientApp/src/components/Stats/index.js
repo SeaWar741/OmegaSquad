@@ -1,16 +1,13 @@
-import React,{useState,useCallback,useEffect} from "react";
+import React,{useState,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import Panel from "../Panel";
-import { InlineIcon } from '@iconify/react';
-import sortRight from '@iconify/icons-icons8/sort-right';
-import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
-import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer,Legend  } from 'recharts';
+import { Container} from 'react-bootstrap';
+import { Bar, BarChart,XAxis,YAxis,Tooltip,ResponsiveContainer,Legend  } from 'recharts';
 import RecordVoiceOverOutlinedIcon from '@material-ui/icons/RecordVoiceOverOutlined';
 import Grid from '@material-ui/core/Grid';
-
 import axios from 'axios';
 
 //Redux
@@ -42,8 +39,7 @@ const Stats = ({classes}) =>{
 
     const categoria = "Chatarra";
 
-    useEffect(async () => {
-
+    const fetchData = async () => {
         for (const chatarra of listChatarra) {
             console.log(chatarra)
             const resultBuenas = await axios(
@@ -57,8 +53,12 @@ const Stats = ({classes}) =>{
             setMalas(buenas => [...buenas, {name: chatarra, malas: resultMalas.data[0].noBuenas}]);
             setClassification(classification => [...classification, {name: chatarra, buenas: resultBuenas.data[0].buenas, malas: resultMalas.data[0].noBuenas}])
         }
+    };
 
+    useEffect(() => {
+        fetchData();
     }, []);
+
 
     //console.log(buenas)
     //console.log(malas)
@@ -85,7 +85,7 @@ const Stats = ({classes}) =>{
                                             layout="vertical"
                                             fontSize={12}
                                         >
-                                             <defs>
+                                            <defs>
                                                 <linearGradient id="buenasColor" x1="1" y1="0" x2="0" y2="0">
                                                 <stop offset="0%" stopColor="#FF9900" stopOpacity={1}/>
                                                 <stop offset="48%" stopColor="#FF390E" stopOpacity={1}/>

@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Panel from "../Panel";
 
 import { InlineIcon } from '@iconify/react';
-import { NavLink, useHistory,Link } from 'react-router-dom';
+import { NavLink,Link } from 'react-router-dom';
 import sortRight from '@iconify/icons-icons8/sort-right';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip, Legend,ResponsiveContainer } from 'recharts';
@@ -57,8 +57,7 @@ const Left = ({classes}) =>{
 
     const [horas,setHoras] = useState([]);
 
-    useEffect(async () => {
-
+    const fetchData = async() =>{
         const result = await axios(
             process.env.REACT_APP_SQL_ROUTE+'tiempodiasemanaactual?user='+username,
         );
@@ -86,10 +85,13 @@ const Left = ({classes}) =>{
             }
         ];
 
-        console.log(result.data)
+        //console.log(result.data)
 
         setHoras(dataDays);
+    }
 
+    useEffect(() => {
+        fetchData();
     }, []);
 
     //console.log(horas);

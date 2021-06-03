@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 
 import ResponsiveEmbed from 'react-responsive-embed';
 
-import history from "../../history";
 import Panel from "../Panel";
 
 import Unity, { UnityContext } from "react-unity-webgl";
@@ -45,10 +44,14 @@ const Game = ({classes}) =>{
 
     const [isLoaded, setIsLoaded] = useState(false);
 
-    useEffect(function () {
+    const loadGame = () =>{
         unityContext.on("loaded", function () {
-        setIsLoaded(true);
+            setIsLoaded(true);
         });
+    }
+
+    useEffect(() =>{
+        loadGame();
     }, []);
 
     return (
@@ -62,7 +65,7 @@ const Game = ({classes}) =>{
                             style={{
                                 width: "100%",
                                 height: "100%",
-                                background: "grey",
+                                background: "black",
                             }}
                         />
                     </Container>

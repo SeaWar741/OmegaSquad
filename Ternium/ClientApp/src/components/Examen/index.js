@@ -95,11 +95,15 @@ const Leaderboard = ({classes}) =>{
       setAge(event.target.value);
     };
 
-    useEffect(async() => {
+    const getImages = async()=>{
         const result = await axios(
             process.env.REACT_APP_SQL_ROUTE+'images',
         );
         setImages(result.data);
+    }
+
+    useEffect( () => {
+        getImages();
     }, [])
 
     useEffect(() =>{
@@ -109,7 +113,7 @@ const Leaderboard = ({classes}) =>{
         }
     },[images])
 
-    console.log(images);
+    //console.log(images);
 
     return (
         <div>

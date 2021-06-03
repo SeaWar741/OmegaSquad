@@ -49,8 +49,7 @@ const Home = ({classes}) =>{
 
     const categoria = "Chatarra";
 
-    useEffect(async () => {
-
+    const fetchData = async() =>{
         for (const chatarra of listChatarra) {
             console.log(chatarra)
             const resultBuenas = await axios(
@@ -64,7 +63,10 @@ const Home = ({classes}) =>{
             setMalas(buenas => [...buenas, {name: chatarra, malas: resultMalas.data[0].noBuenas}]);
             setClassification(classification => [...classification, {name: chatarra, buenas: resultBuenas.data[0].buenas, malas: resultMalas.data[0].noBuenas}])
         }
+    }
 
+    useEffect(() => {
+        fetchData();
     }, []);
 
     //console.log(buenas)
