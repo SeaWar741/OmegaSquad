@@ -236,11 +236,11 @@ const Left = ({classes}) =>{
                                 <ResponsiveContainer>
                                     <AreaChart data={horas}>
                                         <defs>
-                                            <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
+                                            <linearGradient id="colorHoursLast" x1="0" y1="0" x2="0" y2="1">
                                                 <stop offset="0%" stopColor="#00355F" stopOpacity={1}/>
                                                 <stop offset="48%" stopColor="#00355F" stopOpacity={1}/>
                                             </linearGradient>
-                                            <linearGradient id="colorHoursLast" x1="0" y1="0" x2="0" y2="1">
+                                            <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
                                                 <stop offset="0%" stopColor="#007DB1" stopOpacity={0.48}/>
                                                 <stop offset="48%" stopColor="#007DB1" stopOpacity={1}/>
                                             </linearGradient>
@@ -250,8 +250,8 @@ const Left = ({classes}) =>{
                                         <CartesianGrid strokeDasharray="3 3"/>
                                         <Tooltip />
                                         <Legend />
-                                        <Area type="monotone" fillOpacity={0.6}  dataKey="HorasDeJuegoLast" fill="url(#)" />
                                         <Area type="monotone" fillOpacity={0.6}  dataKey="HorasDeJuego" fill="url(#colorHours)" />
+                                        {/*<Area type="monotone" fillOpacity={0.6}  dataKey="HorasDeJuego" fill="url(#colorHours)" />*/}
                                     </AreaChart>
                                 </ResponsiveContainer>
                             </div>
