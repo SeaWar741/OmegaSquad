@@ -8,7 +8,7 @@ import controller from '@iconify/icons-icons8/controller';
 import resizeFourDirections from '@iconify/icons-icons8/resize-four-directions';
 import Button from '@material-ui/core/Button';
 
-import ResponsiveEmbed from 'react-responsive-embed';
+import {Helmet} from "react-helmet";
 
 import Panel from "../Panel";
 
@@ -63,6 +63,9 @@ const Game = ({classes}) =>{
 
     return (
         <div>
+            <Helmet>
+                <title>Ternium Trainer | Practica</title>
+            </Helmet>
             <Panel>
                 <div className={classes.contentDiv} >
                     <div className={classes.header}>
@@ -70,11 +73,8 @@ const Game = ({classes}) =>{
                             <InlineIcon icon={controller} style={{ fontSize: 50,marginRight:"0.5rem" }} />
                             Modo Práctica
                         </h1>
-                        <Button onClick={handleOnClickFullscreen}>
-                            <InlineIcon icon={resizeFourDirections} style={{ fontSize: 50,marginRight:"0.5rem" }} />
-                        </Button>
                     </div>
-                    <Container>
+                    <Container style={{marginTop:"2rem"}}>
                         <Unity
                             unityContext={unityContext}
                             matchWebGLToCanvasSize={true}
@@ -84,6 +84,9 @@ const Game = ({classes}) =>{
                                 background: "black",
                             }}
                         />
+                        <Button onClick={handleOnClickFullscreen} style={{float:"right"}}>
+                            <InlineIcon icon={resizeFourDirections} style={{ fontSize: 50}} />
+                        </Button>
                     </Container>
                 </div>
             </Panel>

@@ -6,8 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Panel from "../Panel";
 import Left from "./left";
-import { InlineIcon } from '@iconify/react';
-import sortRight from '@iconify/icons-icons8/sort-right';
+import {Helmet} from "react-helmet";
 import Grid from '@material-ui/core/Grid';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer,Legend  } from 'recharts';
 import RecordVoiceOverOutlinedIcon from '@material-ui/icons/RecordVoiceOverOutlined';
@@ -75,6 +74,9 @@ const Home = ({classes}) =>{
 
     return (
         <div>
+            <Helmet>
+                <title>Ternium Trainer | Inicio</title>
+            </Helmet>
             <Panel>
                 <Grid container spacing={3} alignItems="stretch">
                     <Grid item xs={12} sm={6}>

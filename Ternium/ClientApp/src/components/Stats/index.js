@@ -9,6 +9,7 @@ import { Bar, BarChart,XAxis,YAxis,Tooltip,ResponsiveContainer,Legend  } from 'r
 import RecordVoiceOverOutlinedIcon from '@material-ui/icons/RecordVoiceOverOutlined';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
+import {Helmet} from "react-helmet";
 
 //Redux
 import { useSelector } from 'react-redux';
@@ -66,6 +67,9 @@ const Stats = ({classes}) =>{
 
     return (
         <div>
+            <Helmet>
+                <title>Ternium Trainer | Estadísticas</title>
+            </Helmet>
             <Panel>
                 <Grid container spacing={3} alignItems="stretch">
                     <Grid item xs={12} sm={6}>

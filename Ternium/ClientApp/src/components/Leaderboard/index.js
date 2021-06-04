@@ -13,6 +13,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import {Helmet} from "react-helmet";
+
 
 import axios from 'axios';
 
@@ -283,6 +285,9 @@ const Leaderboard = ({classes}) =>{
 
     return (
         <div>
+            <Helmet>
+                <title>Ternium Trainer | Leaderboard</title>
+            </Helmet>
             <Panel>
                 <div className={classes.contentDiv}>
                     <div className={classes.mainDiv}>

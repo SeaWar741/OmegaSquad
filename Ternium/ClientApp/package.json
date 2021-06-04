@@ -18,6 +18,7 @@
     "react-bootstrap": "^1.5.2",
     "react-countdown": "^2.3.1",
     "react-dom": "^16.0.0",
+    "react-helmet": "^6.1.0",
     "react-redux": "^7.2.4",
     "react-responsive-embed": "^2.1.0",
     "react-router-bootstrap": "^0.25.0",

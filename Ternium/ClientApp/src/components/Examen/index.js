@@ -1,6 +1,6 @@
 import React,{useState,useCallback,useEffect} from "react";
 import { makeStyles,withStyles  } from "@material-ui/core/styles";
-import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
+import { Image,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -12,12 +12,13 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import createNew from '@iconify/icons-icons8/create-new';
 
+import {Helmet} from "react-helmet";
+
 import axios from 'axios';
 
 
 import Panel from "../Panel";
-import { Icon, InlineIcon } from '@iconify/react';
-import baselineLeaderboard from '@iconify-icons/ic/baseline-leaderboard';
+import { InlineIcon } from '@iconify/react';
 
 const BootstrapInput = withStyles((theme) => ({
     root: {
@@ -85,11 +86,11 @@ const useStyles = makeStyles((theme) =>({
 const Leaderboard = ({classes}) =>{
     classes = useStyles();
 
-    const [age, setAge] = React.useState('');
+    const [age, setAge] = useState('');
 
-    const [images, setImages] = React.useState('');
+    const [images, setImages] = useState('');
 
-    const [image,setImage] = React.useState('');
+    const [image,setImage] = useState('');
 
     const handleChange = (event) => {
       setAge(event.target.value);
@@ -117,6 +118,9 @@ const Leaderboard = ({classes}) =>{
 
     return (
         <div>
+            <Helmet>
+                <title>Ternium Trainer | Examen</title>
+            </Helmet>
             <Panel>
                 <div className={classes.contentDiv}>
                     <div className={classes.mainDiv}>
@@ -129,13 +133,13 @@ const Leaderboard = ({classes}) =>{
                         <div className={classes.examenDiv}>
                             <div className={classes.root}>
                                 <Grid container spacing={3}>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} md={6}>
                                             {images.length>0 &&
                                                 <Image src="./img/Test/Mixto.jpg" fluid />
                                             }
                                             
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} md={6}>
                                         <div>
                                             <h1 style={{fontWeight:"bold",textAlign:"center"}}>
                                                 <Countdown date={Date.now() + 1000000}>

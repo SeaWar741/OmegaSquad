@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Redirect } from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 //Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -170,6 +171,9 @@ const Login = ({classes}) =>{
 
     return (
         <div>
+            <Helmet>
+                <title>Ternium Trainer | Login</title>
+            </Helmet>
             <div className={classes.mainDiv}>
                 <div className={classes.mask}/>
                 <Card className={classes.cardLogin}>

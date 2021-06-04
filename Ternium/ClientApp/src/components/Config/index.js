@@ -1,6 +1,6 @@
 import React,{useState,useCallback,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Panel from "../Panel";
@@ -12,7 +12,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { Icon, InlineIcon } from '@iconify/react';
 import Settings from '@iconify-icons/ic/settings';
-import SettingsIcon from '@material-ui/icons/Settings';
+
+import {Helmet} from "react-helmet";
 
 import axios from 'axios';
  
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) =>({
         minHeight:"90vh"
     },
     configDiv:{
-        marginTop:"2rem",
+        marginTop:"1rem",
         overflowY: "auto",
         maxHeight:"75vh",
         textAlign:"center"
@@ -50,7 +51,9 @@ const useStyles = makeStyles((theme) =>({
     },
     userInfo:{
         textAlign:"left",
-        padding:"1rem"
+        paddingLeft:"1rem",
+        paddingRight:"1rem",
+        paddingTop:"2rem"
     }
 }))
 
@@ -113,6 +116,9 @@ const Config = ({classes}) =>{
     
     return (
         <div>
+            <Helmet>
+                <title>Ternium Trainer | Ajustes</title>
+            </Helmet>
             <Panel>
                 <div className={classes.contentDiv}>
                     <div className={classes.mainDiv}>
@@ -121,6 +127,9 @@ const Config = ({classes}) =>{
                                 <InlineIcon icon={Settings} style={{ fontSize: 50,marginRight:"0.5rem" }} />
                                 Configuración de cuenta
                             </h1>
+                        </div>
+                        <div className={classes.userInfo}>
+                                <h4> <strong>Username:</strong><br/> {username}</h4>
                         </div>
                         <div className={classes.configDiv}>
                            <div className={classes.loginLog}>
@@ -142,9 +151,6 @@ const Config = ({classes}) =>{
                                         </Table>
                                     </TableContainer>
                                 }
-                           </div>
-                           <div className={classes.userInfo}>
-                                <h4> <strong>Username:</strong><br/> {username}</h4>
                            </div>
                            <br/>
                            <Button variant="danger" onClick={reload}>Log out</Button>
