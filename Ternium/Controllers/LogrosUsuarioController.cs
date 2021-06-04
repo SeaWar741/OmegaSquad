@@ -24,7 +24,7 @@ namespace Ternium.Controllers
         public IList<Models.LogrosUsuario> ListaUsuarios { get; set; }
 
         [HttpGet]
-        public IEnumerable<Models.LogrosUsuario> Get(string tipo,string user,string categoria)
+        public IEnumerable<Models.LogrosUsuario> Get(string user)
         {
             try{
                 MySqlConnection conexion = new MySqlConnection(connectionString);

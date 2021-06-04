@@ -86,11 +86,15 @@ const Left = ({classes}) =>{
     classes = useStyles();
 
     const username = useSelector(state => state.usernameState.username)
+    const usernameid = useSelector(state => state.usernameState.usernameCode)
+    
 
     const [horas,setHoras] = useState([]);
+    const [horasLast,setHorasLast] = useState([]);
     const [horast,setHorast] = useState(0);
     const [juegos,setJuegos] = useState(0);
     const [streaks,setStreaks] = useState(0);
+    const [medallas,setMedallas] = useState([]);
     const [posicion, setPosicion] = useState();
 
     const [dense, setDense] = useState(false);
@@ -100,32 +104,72 @@ const Left = ({classes}) =>{
         const result = await axios(
             process.env.REACT_APP_SQL_ROUTE+'tiempodiasemanaactual?user='+username,
         );
-        
+        const result2 = await axios(
+            process.env.REACT_APP_SQL_ROUTE+'tiempodiasemanapasada?user='+username,
+        );
+
         const dataDays = [
             {
                 name:"Lunes",
-                HorasDeJuego:result.data[0].lunes
+                HorasDeJuego:result.data[0].lunes,
+                HorasDeJuegoLast:result2.data[0].lunes,
             },
             {
                 name:"Martes",
-                HorasDeJuego:result.data[0].martes
+                HorasDeJuego:result.data[0].martes,
+                HorasDeJuegoLast:result2.data[0].martes,
             },
             {
                 name:"Miercoles",
-                HorasDeJuego:result.data[0].miercoles
+                HorasDeJuego:result.data[0].miercoles,
+                HorasDeJuegoLast:result2.data[0].miercoles,
             },
             {
                 name:"Jueves",
-                HorasDeJuego:result.data[0].jueves
+                HorasDeJuego:result.data[0].jueves,
+                HorasDeJuegoLast:result2.data[0].jueves,
             },
             {
                 name:"Viernes",
-                HorasDeJuego:result.data[0].viernes
+                HorasDeJuego:result.data[0].viernes,
+                HorasDeJuegoLast:result2.data[0].viernes,
             }
         ];
 
 
         setHoras(dataDays);
+    };
+
+    const getJuegosLast = async() =>{
+        const result = await axios(
+            process.env.REACT_APP_SQL_ROUTE+'tiempodiasemanapasada?user='+username,
+        );
+        
+        const dataDays = [
+            {
+                name:"Lunes",
+                HorasDeJuegoLast:result.data[0].lunes
+            },
+            {
+                name:"Martes",
+                HorasDeJuegoLast:result.data[0].martes
+            },
+            {
+                name:"Miercoles",
+                HorasDeJuegoLast:result.data[0].miercoles
+            },
+            {
+                name:"Jueves",
+                HorasDeJuegoLast:result.data[0].jueves
+            },
+            {
+                name:"Viernes",
+                HorasDeJuegoLast:result.data[0].viernes
+            }
+        ];
+
+
+        setHorasLast(dataDays);
     };
 
     const getHoras = async() =>{
@@ -135,6 +179,7 @@ const Left = ({classes}) =>{
         
         setHorast(Math.floor(result.data[0].tiempoHorasJugadas/60) + ":" +result.data[0].tiempoHorasJugadas%60);
     }
+    
 
     const getNJuegos = async() =>{
         const result = await axios(
@@ -151,20 +196,32 @@ const Left = ({classes}) =>{
           setPosicion(binarySearch(result.data,username));
     }
 
+    const getStreaks = async() =>{
+        const result = await axios(
+            process.env.REACT_APP_SQL_ROUTE+'streaks?userid='+usernameid,
+          );
+          setStreaks(result.data);
+    }
+
     const getMedallas = async() =>{
         const result = await axios(
-            process.env.REACT_APP_SQL_ROUTE+'numerojuegos?user='+username,
+            process.env.REACT_APP_SQL_ROUTE+'logrosusuario?user='+username,
           );
-          setStreaks(result.data[0].numeroJuegos);
+          setMedallas(result.data);
     }
+
+
 
     useEffect(() => {
         getJuegos();
+        getJuegosLast();
         getHoras();
         getNJuegos();
+        getStreaks();
         getMedallas();
-
     }, []);
+
+    console.log(horas);
 
     return (
         <div>
@@ -180,15 +237,20 @@ const Left = ({classes}) =>{
                                     <AreaChart data={horas}>
                                         <defs>
                                             <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor="#007DB1" stopOpacity={0.48}/>
-                                            <stop offset="48%" stopColor="#007DB1" stopOpacity={1}/>
+                                                <stop offset="0%" stopColor="#00355F" stopOpacity={1}/>
+                                                <stop offset="48%" stopColor="#00355F" stopOpacity={1}/>
+                                            </linearGradient>
+                                            <linearGradient id="colorHoursLast" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stopColor="#007DB1" stopOpacity={0.48}/>
+                                                <stop offset="48%" stopColor="#007DB1" stopOpacity={1}/>
                                             </linearGradient>
                                         </defs>
                                         <XAxis dataKey="name" />
-                                        <YAxis dataKey="HorasDeJuego" />
+                                        <YAxis/>
                                         <CartesianGrid strokeDasharray="3 3"/>
                                         <Tooltip />
                                         <Legend />
+                                        <Area type="monotone" fillOpacity={0.6}  dataKey="HorasDeJuegoLast" fill="url(#)" />
                                         <Area type="monotone" fillOpacity={0.6}  dataKey="HorasDeJuego" fill="url(#colorHours)" />
                                     </AreaChart>
                                 </ResponsiveContainer>
@@ -202,9 +264,9 @@ const Left = ({classes}) =>{
                                             Horas de juego totales
                                             <br/><br/>
 
-                                            <strong>{juegos+" | "+juegos}</strong>
+                                            <strong>{juegos}</strong>
                                             <br/>
-                                            Juegos y examenes completados
+                                            Juegos completados
                                             <br/><br/>
 
                                             <strong>{posicion !== undefined ? "#"+posicion:"N/A"}</strong>
@@ -232,13 +294,13 @@ const Left = ({classes}) =>{
                                             </h3>
                                             <div className={classes.demo}>
                                                 <List dense={dense}>
-                                                {generate(
+                                                {medallas.map(s => 
                                                     <ListItem>
                                                     <ListItemIcon>
                                                         <EmojiEventsIcon/>
                                                     </ListItemIcon>
                                                     <ListItemText
-                                                        primary="Medalla Random"
+                                                        primary={s.nombre}
                                                         secondary={secondary ? 'Secondary text' : null}
                                                     />
                                                     </ListItem>,

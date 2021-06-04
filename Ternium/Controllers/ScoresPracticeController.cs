@@ -32,7 +32,7 @@ namespace Ternium.Controllers
 
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conexion;
-                cmd.CommandText = "SELECT                juego.user,    tipopregunta.Categoria,    tipopregunta.tipo,	ROUND((SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end) + 0.0 ) / (0.0 + SUM(case when pregunta.isCorrecta <> 1 then 1 else 0 end) + 		SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end)), 2) AS metrica,    SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end) AS puntaje FROM    pregunta INNER JOIN juego ON pregunta.idJuego = juego.id INNER JOIN tipopregunta ON tipopregunta.id = pregunta.tipo WHERE    (        tipopregunta.tipo = \"Chatarra\" AND YEARWEEK(DATE(pregunta.startTime),        1) = YEARWEEK(CURDATE(), 1))    GROUP BY        USER  ORDER BY `metrica`  DESC";
+                cmd.CommandText = "SELECT                juego.user,    tipopregunta.Categoria,    tipopregunta.tipo,	ROUND((SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end) + 0.0 ) / (0.0 + SUM(case when pregunta.isCorrecta <> 1 then 1 else 0 end) + 		SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end)), 2) AS metrica,    SUM(case when pregunta.isCorrecta = 1 then 1 else 0 end) AS puntaje FROM    pregunta INNER JOIN juego ON pregunta.idJuego = juego.id INNER JOIN tipopregunta ON tipopregunta.id = pregunta.tipo WHERE    (        tipopregunta.tipo = \"Chatarra\" AND MONTH(FROM_UNIXTIME(pregunta.startTime))= MONTH(CURDATE()))    GROUP BY        USER  ORDER BY `metrica`  DESC";
 
                 Models.RankingPractica usr1 = new Models.RankingPractica();
                 ListaUsuarios = new List<Models.RankingPractica>();

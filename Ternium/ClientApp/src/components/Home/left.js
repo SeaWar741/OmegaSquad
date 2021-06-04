@@ -110,8 +110,8 @@ const Left = ({classes}) =>{
                                     <BarChart data={horas}>
                                         <defs>
                                             <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor="#007db1" stopOpacity={1}/>
-                                            <stop offset="48%" stopColor="#0069ad" stopOpacity={1}/>
+                                                <stop offset="0%" stopColor="#007db1" stopOpacity={1}/>
+                                                <stop offset="48%" stopColor="#0069ad" stopOpacity={1}/>
                                             </linearGradient>
                                         </defs>
                                         <XAxis dataKey="name" />
