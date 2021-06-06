@@ -35,10 +35,10 @@ const useStyles = makeStyles((theme) =>({
 
 
 const unityContext = new UnityContext({
-    loaderUrl: "build/Downloads.loader.js",
-    dataUrl: "build/Downloads.data",
-    frameworkUrl: "build/Downloads.framework.js",
-    codeUrl: "build/Downloads.wasm",
+    loaderUrl: "build/test.loader.js",
+    dataUrl: "build/test.data",
+    frameworkUrl: "build/test.framework.js",
+    codeUrl: "build/test.wasm",
 });
 
 

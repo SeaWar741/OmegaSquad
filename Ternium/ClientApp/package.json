@@ -17,6 +17,8 @@
     "merge": "^1.2.1",
     "oidc-client": "^1.9.0",
     "react": "^16.0.0",
+    "react-animations": "^1.0.0",
+    "react-awesome-reveal": "^3.7.2",
     "react-bootstrap": "^1.5.2",
     "react-countdown": "^2.3.1",
     "react-dom": "^16.0.0",
