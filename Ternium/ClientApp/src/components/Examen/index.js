@@ -11,6 +11,7 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import createNew from '@iconify/icons-icons8/create-new';
+import Fade from 'react-reveal/Fade';
 
 import {Helmet} from "react-helmet";
 
@@ -122,87 +123,89 @@ const Leaderboard = ({classes}) =>{
                 <title>Ternium Trainer | Examen</title>
             </Helmet>
             <Panel>
-                <div className={classes.contentDiv}>
-                    <div className={classes.mainDiv}>
-                        <div className={classes.header}>
-                            <h1 style={{display: "inline"}}>
-                                <InlineIcon icon={createNew} style={{ fontSize: 50,marginRight:"0.5rem" }} />
-                                Examen práctico
-                            </h1>
-                        </div>
-                        <div className={classes.examenDiv}>
-                            <div className={classes.root}>
-                                <Grid container spacing={3}>
-                                    <Grid item xs={12} md={6}>
-                                            {images.length>0 &&
-                                                <Image src="./img/Test/Mixto.jpg" fluid />
-                                            }
-                                            
-                                    </Grid>
-                                    <Grid item xs={12} md={6}>
-                                        <div>
-                                            <h1 style={{fontWeight:"bold",textAlign:"center"}}>
-                                                <Countdown date={Date.now() + 1000000}>
-                                                    Examen Finalizado
-                                                </Countdown>
-                                            </h1>
-                                            <div style={{padding:"2rem"}}>
-                                                <div style={{textAlign:"center",marginTop:"2rem"}}>
-                                                    <h4 style={{fontWeight:"bold"}}>
-                                                        Pregunta: 02/30
-                                                    </h4>
-                                                </div>
-                                                <div>
+                <Fade big>
+                    <div className={classes.contentDiv}>
+                        <div className={classes.mainDiv}>
+                            <div className={classes.header}>
+                                <h1 style={{display: "inline"}}>
+                                    <InlineIcon icon={createNew} style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                    Examen práctico
+                                </h1>
+                            </div>
+                            <div className={classes.examenDiv}>
+                                <div className={classes.root}>
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12} md={6}>
+                                                {images.length>0 &&
+                                                    <Image src="./img/Test/Mixto.jpg" fluid />
+                                                }
+                                                
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <div>
+                                                <h1 style={{fontWeight:"bold",textAlign:"center"}}>
+                                                    <Countdown date={Date.now() + 1000000}>
+                                                        Examen Finalizado
+                                                    </Countdown>
+                                                </h1>
+                                                <div style={{padding:"2rem"}}>
+                                                    <div style={{textAlign:"center",marginTop:"2rem"}}>
+                                                        <h4 style={{fontWeight:"bold"}}>
+                                                            Pregunta: 02/30
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div style={{textAlign:"center",marginTop:"3rem"}}>
+                                                            <FormControl className={classes.margin}>
+                                                                <InputLabel htmlFor="demo-customized-textbox">Justificación</InputLabel>
+                                                                <BootstrapInput id="demo-customized-textbox" />
+                                                            </FormControl>
+                                                            <FormControl className={classes.margin}>
+                                                                <InputLabel htmlFor="demo-customized-select-native">Categoría</InputLabel>
+                                                                <NativeSelect
+                                                                id="demo-customized-select-native"
+                                                                value={age}
+                                                                onChange={handleChange}
+                                                                input={<BootstrapInput />}
+                                                                >
+                                                                <option aria-label="None" value="" />
+                                                                <option value={10}>Ten</option>
+                                                                <option value={20}>Twenty</option>
+                                                                <option value={30}>Thirty</option>
+                                                                </NativeSelect>
+                                                            </FormControl>
+                                                            <FormControl className={classes.margin}>
+                                                                <InputLabel htmlFor="demo-customized-select-native">Tipo</InputLabel>
+                                                                <NativeSelect
+                                                                id="demo-customized-select-native"
+                                                                value={age}
+                                                                onChange={handleChange}
+                                                                input={<BootstrapInput />}
+                                                                >
+                                                                <option aria-label="None" value="" />
+                                                                <option value={10}>Ten</option>
+                                                                <option value={20}>Twenty</option>
+                                                                <option value={30}>Thirty</option>
+                                                                </NativeSelect>
+                                                            </FormControl>
+                                                        </div>
+                                                    </div>
+                                                    <div style={{textAlign:"center",marginTop:"5rem"}}>
+                                                        <Button variant="danger">Registrar respuesta</Button>
+                                                    </div>
                                                     <div style={{textAlign:"center",marginTop:"3rem"}}>
-                                                        <FormControl className={classes.margin}>
-                                                            <InputLabel htmlFor="demo-customized-textbox">Justificación</InputLabel>
-                                                            <BootstrapInput id="demo-customized-textbox" />
-                                                        </FormControl>
-                                                        <FormControl className={classes.margin}>
-                                                            <InputLabel htmlFor="demo-customized-select-native">Categoría</InputLabel>
-                                                            <NativeSelect
-                                                            id="demo-customized-select-native"
-                                                            value={age}
-                                                            onChange={handleChange}
-                                                            input={<BootstrapInput />}
-                                                            >
-                                                            <option aria-label="None" value="" />
-                                                            <option value={10}>Ten</option>
-                                                            <option value={20}>Twenty</option>
-                                                            <option value={30}>Thirty</option>
-                                                            </NativeSelect>
-                                                        </FormControl>
-                                                        <FormControl className={classes.margin}>
-                                                            <InputLabel htmlFor="demo-customized-select-native">Tipo</InputLabel>
-                                                            <NativeSelect
-                                                            id="demo-customized-select-native"
-                                                            value={age}
-                                                            onChange={handleChange}
-                                                            input={<BootstrapInput />}
-                                                            >
-                                                            <option aria-label="None" value="" />
-                                                            <option value={10}>Ten</option>
-                                                            <option value={20}>Twenty</option>
-                                                            <option value={30}>Thirty</option>
-                                                            </NativeSelect>
-                                                        </FormControl>
+                                                        <Button variant="primary" style={{margin:"1rem"}}>🠔</Button>
+                                                        <Button variant="primary" style={{margin:"1rem"}}>🠖</Button>
                                                     </div>
                                                 </div>
-                                                <div style={{textAlign:"center",marginTop:"5rem"}}>
-                                                    <Button variant="danger">Registrar respuesta</Button>
-                                                </div>
-                                                <div style={{textAlign:"center",marginTop:"3rem"}}>
-                                                    <Button variant="primary" style={{margin:"1rem"}}>🠔</Button>
-                                                    <Button variant="primary" style={{margin:"1rem"}}>🠖</Button>
-                                                </div>
                                             </div>
-                                        </div>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </div> 
+                                </div> 
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Fade>
             </Panel>
         </div>
     );

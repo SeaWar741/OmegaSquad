@@ -12,6 +12,7 @@ import sortRight from '@iconify/icons-icons8/sort-right';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import { Bar, BarChart,XAxis,YAxis,CartesianGrid,Tooltip, Legend,ResponsiveContainer } from 'recharts';
 import Grid from '@material-ui/core/Grid';
+import Fade from 'react-reveal/Fade';
 
 import axios from 'axios';
 
@@ -98,12 +99,13 @@ const Left = ({classes}) =>{
 
     return (
         <div>
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Fade big>
                         <div className={classes.chartDiv}>
                             <h1 style={{paddingBottom:"1rem"}}>
                                 <HourglassEmptyIcon style={{ fontSize: 50,marginRight:"0.5rem" }} />
-                                 Horas de juego
+                                    Horas de juego
                             </h1>
                             <div style={{ width: '100%', height: 300 }}>
                                 <ResponsiveContainer>
@@ -123,9 +125,11 @@ const Left = ({classes}) =>{
                             </div>
                             
                         </div>
-                    </Grid>
-                
-                    <Grid item xs={12} style={{pointer:"drag"}}>
+                    </Fade>
+                </Grid>
+            
+                <Grid item xs={12} style={{pointer:"drag"}}>
+                    <Fade big>
                         <Link to="/game" replace style={{textDecoration: 'none'}}>
                             <a  className={classes.buttonPlay}> 
                                 <div className={classes.playCard}>
@@ -136,9 +140,9 @@ const Left = ({classes}) =>{
                                 </div>
                             </a>
                         </Link>
-                    </Grid>
+                    </Fade>
                 </Grid>
-
+            </Grid>
         </div>
     );
 }

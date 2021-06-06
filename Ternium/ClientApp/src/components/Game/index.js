@@ -7,6 +7,7 @@ import { Icon, InlineIcon } from '@iconify/react';
 import controller from '@iconify/icons-icons8/controller';
 import resizeFourDirections from '@iconify/icons-icons8/resize-four-directions';
 import Button from '@material-ui/core/Button';
+import Fade from 'react-reveal/Fade';
 
 import {Helmet} from "react-helmet";
 
@@ -67,28 +68,30 @@ const Game = ({classes}) =>{
                 <title>Ternium Trainer | Practica</title>
             </Helmet>
             <Panel>
-                <div className={classes.contentDiv} >
-                    <div className={classes.header}>
-                        <h1 style={{display: "inline"}}>
-                            <InlineIcon icon={controller} style={{ fontSize: 50,marginRight:"0.5rem" }} />
-                            Modo Práctica
-                        </h1>
+                <Fade big>
+                    <div className={classes.contentDiv} >
+                        <div className={classes.header}>
+                            <h1 style={{display: "inline"}}>
+                                <InlineIcon icon={controller} style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                Modo Práctica
+                            </h1>
+                        </div>
+                        <Container style={{marginTop:"2rem"}}>
+                            <Unity
+                                unityContext={unityContext}
+                                matchWebGLToCanvasSize={true}
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    background: "black",
+                                }}
+                            />
+                            <Button onClick={handleOnClickFullscreen} style={{float:"right"}}>
+                                <InlineIcon icon={resizeFourDirections} style={{ fontSize: 50}} />
+                            </Button>
+                        </Container>
                     </div>
-                    <Container style={{marginTop:"2rem"}}>
-                        <Unity
-                            unityContext={unityContext}
-                            matchWebGLToCanvasSize={true}
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                background: "black",
-                            }}
-                        />
-                        <Button onClick={handleOnClickFullscreen} style={{float:"right"}}>
-                            <InlineIcon icon={resizeFourDirections} style={{ fontSize: 50}} />
-                        </Button>
-                    </Container>
-                </div>
+                </Fade>
             </Panel>
         </div>
     );

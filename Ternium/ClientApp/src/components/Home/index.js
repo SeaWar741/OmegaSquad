@@ -2,6 +2,8 @@ import React,{useState,useCallback,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 
+import Fade from 'react-reveal/Fade';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -85,33 +87,35 @@ const Home = ({classes}) =>{
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <Container className={classes.kpisDiv}>
-                            <div style={{padding:"2rem"}}>
-                                <h1 style={{paddingBottom:"1rem"}}>
-                                    <RecordVoiceOverOutlinedIcon style={{ fontSize: 50,marginRight:"0.5rem" }}/>
-                                    Precisión de clasificación
-                                </h1>
-                                <div style={{ width: '100%', height: 600}}>
-                                    <ResponsiveContainer>
-                                        <BarChart 
-                                            data={classification} 
-                                            layout="vertical"
-                                            fontSize={12}
-                                        >
-                                             <defs>
-                                                <linearGradient id="buenasColor" x1="1" y1="0" x2="0" y2="0">
-                                                <stop offset="0%" stopColor="#FF9900" stopOpacity={1}/>
-                                                <stop offset="48%" stopColor="#FF390E" stopOpacity={1}/>
-                                                </linearGradient>
-                                            </defs>
-                                            <XAxis type="number"/>
-                                            <YAxis type="category" dataKey="name" />
-                                            <Tooltip/>
-                                            <Legend />
-                                            <Bar dataKey="buenas" fill="#8884d8" fill="url(#buenasColor)"/>
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                            <Fade big>
+                                <div style={{padding:"2rem"}}>
+                                    <h1 style={{paddingBottom:"1rem"}}>
+                                        <RecordVoiceOverOutlinedIcon style={{ fontSize: 50,marginRight:"0.5rem" }}/>
+                                        Precisión de clasificación
+                                    </h1>
+                                    <div style={{ width: '100%', height: 600}}>
+                                        <ResponsiveContainer>
+                                            <BarChart 
+                                                data={classification} 
+                                                layout="vertical"
+                                                fontSize={12}
+                                            >
+                                                <defs>
+                                                    <linearGradient id="buenasColor" x1="1" y1="0" x2="0" y2="0">
+                                                    <stop offset="0%" stopColor="#FF9900" stopOpacity={1}/>
+                                                    <stop offset="48%" stopColor="#FF390E" stopOpacity={1}/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <XAxis type="number"/>
+                                                <YAxis type="category" dataKey="name" />
+                                                <Tooltip/>
+                                                <Legend />
+                                                <Bar dataKey="buenas" fill="#8884d8" fill="url(#buenasColor)"/>
+                                            </BarChart>
+                                        </ResponsiveContainer>
+                                    </div>
                                 </div>
-                            </div>
+                            </Fade>
                         </Container>
                     </Grid>
                 </Grid>

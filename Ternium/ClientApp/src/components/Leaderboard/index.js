@@ -14,6 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {Helmet} from "react-helmet";
+import Fade from 'react-reveal/Fade';
 
 
 import axios from 'axios';
@@ -289,57 +290,59 @@ const Leaderboard = ({classes}) =>{
                 <title>Ternium Trainer | Leaderboard</title>
             </Helmet>
             <Panel>
-                <div className={classes.contentDiv}>
-                    <div className={classes.mainDiv}>
-                        <div className={classes.header}>
-                            <h1 style={{display: "inline"}}>
-                                <InlineIcon icon={diploma1} style={{ fontSize: 50,marginRight:"0.5rem" }} />
-                                Leaderboard
-                            </h1>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={tipo}
-                                    onChange={handleChangeTipo}
-        
-                                >
-                                    <MenuItem value={"Examen"}>Exámen</MenuItem>
-                                    <MenuItem value={"Practica"}>Práctica</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </div>
-                        <div className={classes.mobileSelector}>
-                            <FormControl className={classes.formControl3}>
-                                <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={tipo}
-                                    onChange={handleChangeTipo}
-        
-                                >
-                                    <MenuItem value={"Examen"}>Exámen</MenuItem>
-                                    <MenuItem value={"Practica"}>Práctica</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </div>
-                        <div className={classes.tableDiv}>
-                            <TableContainer className={classes.container}>
-                                {tipo=="Examen"?<ExamenTableComponent/>:<PracticaTableComponent/>}
-                            </TableContainer>
-                            <TablePagination
-                                component="div"
-                                count={rows.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onChangePage={handleChangePage}
-                                onChangeRowsPerPage={handleChangeRowsPerPage}
-                            />
+                <Fade big>
+                    <div className={classes.contentDiv}>
+                        <div className={classes.mainDiv}>
+                            <div className={classes.header}>
+                                <h1 style={{display: "inline"}}>
+                                    <InlineIcon icon={diploma1} style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                    Leaderboard
+                                </h1>
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={tipo}
+                                        onChange={handleChangeTipo}
+            
+                                    >
+                                        <MenuItem value={"Examen"}>Exámen</MenuItem>
+                                        <MenuItem value={"Practica"}>Práctica</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div className={classes.mobileSelector}>
+                                <FormControl className={classes.formControl3}>
+                                    <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={tipo}
+                                        onChange={handleChangeTipo}
+            
+                                    >
+                                        <MenuItem value={"Examen"}>Exámen</MenuItem>
+                                        <MenuItem value={"Practica"}>Práctica</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div className={classes.tableDiv}>
+                                <TableContainer className={classes.container}>
+                                    {tipo=="Examen"?<ExamenTableComponent/>:<PracticaTableComponent/>}
+                                </TableContainer>
+                                <TablePagination
+                                    component="div"
+                                    count={rows.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onChangePage={handleChangePage}
+                                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Fade>
             </Panel>
         </div>
     );

@@ -13,7 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
-
+import Fade from 'react-reveal/Fade';
 
 
 import axios from 'axios';
@@ -227,91 +227,93 @@ const Left = ({classes}) =>{
         <div>
             <Grid container spacing={3} style={{ backgroundColor:"white !important"}}>
                     <Grid item xs={12}>
-                        <div className={classes.chartDiv}>
-                            <h1 style={{paddingBottom:"1rem"}}>
-                                <EqualizerIcon style={{ fontSize: 50,marginRight:"0.5rem" }} />
-                                 Estadísticas generales
-                            </h1>
-                            <div style={{ width: '100%', height: 300}}>
-                                <ResponsiveContainer>
-                                    <AreaChart data={horas}>
-                                        <defs>
-                                            <linearGradient id="colorHoursLast" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="0%" stopColor="#00355F" stopOpacity={1}/>
-                                                <stop offset="48%" stopColor="#00355F" stopOpacity={1}/>
-                                            </linearGradient>
-                                            <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="0%" stopColor="#007DB1" stopOpacity={0.48}/>
-                                                <stop offset="48%" stopColor="#007DB1" stopOpacity={1}/>
-                                            </linearGradient>
-                                        </defs>
-                                        <XAxis dataKey="name" />
-                                        <YAxis/>
-                                        <CartesianGrid strokeDasharray="3 3"/>
-                                        <Tooltip />
-                                        <Legend />
-                                        <Area type="monotone" fillOpacity={0.6}  dataKey="HorasDeJuego" fill="url(#colorHours)" />
-                                        {/*<Area type="monotone" fillOpacity={0.6}  dataKey="HorasDeJuego" fill="url(#colorHours)" />*/}
-                                    </AreaChart>
-                                </ResponsiveContainer>
-                            </div>
-                            <div style={{marginTop:"1rem",padding:"2rem"}}>
-                                <Grid container spacing={3}>
-                                    <Grid item xs={12} md={6}>
-                                        <div>
-                                            <strong>{horast}</strong>
-                                            <br/>
-                                            Horas de juego totales
-                                            <br/><br/>
+                        <Fade big>
+                            <div className={classes.chartDiv}>
+                                <h1 style={{paddingBottom:"1rem"}}>
+                                    <EqualizerIcon style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                    Estadísticas generales
+                                </h1>
+                                <div style={{ width: '100%', height: 300}}>
+                                    <ResponsiveContainer>
+                                        <AreaChart data={horas}>
+                                            <defs>
+                                                <linearGradient id="colorHoursLast" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stopColor="#00355F" stopOpacity={1}/>
+                                                    <stop offset="48%" stopColor="#00355F" stopOpacity={1}/>
+                                                </linearGradient>
+                                                <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stopColor="#007DB1" stopOpacity={0.48}/>
+                                                    <stop offset="48%" stopColor="#007DB1" stopOpacity={1}/>
+                                                </linearGradient>
+                                            </defs>
+                                            <XAxis dataKey="name" />
+                                            <YAxis/>
+                                            <CartesianGrid strokeDasharray="3 3"/>
+                                            <Tooltip />
+                                            <Legend />
+                                            <Area type="monotone" fillOpacity={0.6}  dataKey="HorasDeJuego" fill="url(#colorHours)" />
+                                            {/*<Area type="monotone" fillOpacity={0.6}  dataKey="HorasDeJuego" fill="url(#colorHours)" />*/}
+                                        </AreaChart>
+                                    </ResponsiveContainer>
+                                </div>
+                                <div style={{marginTop:"1rem",padding:"2rem"}}>
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12} md={6}>
+                                            <div>
+                                                <strong>{horast}</strong>
+                                                <br/>
+                                                Horas de juego totales
+                                                <br/><br/>
 
-                                            <strong>{juegos}</strong>
-                                            <br/>
-                                            Juegos completados
-                                            <br/><br/>
+                                                <strong>{juegos}</strong>
+                                                <br/>
+                                                Juegos completados
+                                                <br/><br/>
 
-                                            <strong>{posicion !== undefined ? "#"+posicion:"N/A"}</strong>
-                                            <br/>
-                                            Posición global
-                                            <br/><br/>
+                                                <strong>{posicion !== undefined ? "#"+posicion:"N/A"}</strong>
+                                                <br/>
+                                                Posición global
+                                                <br/><br/>
 
-                                            <strong>{streaks}</strong>
-                                            <br/>
-                                            Streaks examen
-                                            <br/><br/>
+                                                <strong>{streaks}</strong>
+                                                <br/>
+                                                Streaks examen
+                                                <br/><br/>
 
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={12} md={6}>
-                                        <div style={{textAlign:"center"}}>
-                                            {/*
-                                            <FixedSizeList height={200} width={300} itemSize={46} itemCount={200}>
-                                                {renderRow}
-                                            </FixedSizeList>
-                                            */}
-                                            <h3 style={{textAlign:"left",fontWeight:"600"}}>
-                                                <SportsEsportsIcon style={{ fontSize: 50,marginRight:"0.5rem" }} />
-                                                Medallas
-                                            </h3>
-                                            <div className={classes.demo}>
-                                                <List dense={dense}>
-                                                {medallas.map(s => 
-                                                    <ListItem>
-                                                    <ListItemIcon>
-                                                        <EmojiEventsIcon/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary={s.nombre}
-                                                        secondary={secondary ? 'Secondary text' : null}
-                                                    />
-                                                    </ListItem>,
-                                                )}
-                                                </List>
                                             </div>
-                                        </div>
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <div style={{textAlign:"center"}}>
+                                                {/*
+                                                <FixedSizeList height={200} width={300} itemSize={46} itemCount={200}>
+                                                    {renderRow}
+                                                </FixedSizeList>
+                                                */}
+                                                <h3 style={{textAlign:"left",fontWeight:"600"}}>
+                                                    <SportsEsportsIcon style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                                    Medallas
+                                                </h3>
+                                                <div className={classes.demo}>
+                                                    <List dense={dense}>
+                                                    {medallas.map(s => 
+                                                        <ListItem>
+                                                        <ListItemIcon>
+                                                            <EmojiEventsIcon/>
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            primary={s.nombre}
+                                                            secondary={secondary ? 'Secondary text' : null}
+                                                        />
+                                                        </ListItem>,
+                                                    )}
+                                                    </List>
+                                                </div>
+                                            </div>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
+                                </div>
                             </div>
-                        </div>
+                        </Fade>
                     </Grid>
             </Grid>
         </div>

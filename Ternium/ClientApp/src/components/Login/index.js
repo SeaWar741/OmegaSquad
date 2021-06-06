@@ -5,6 +5,7 @@ import { Container,Row,Col,Image,Form,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Redirect } from "react-router-dom";
 import {Helmet} from "react-helmet";
+import Fade from 'react-reveal/Fade';
 
 //Redux
 import { useSelector, useDispatch } from 'react-redux';

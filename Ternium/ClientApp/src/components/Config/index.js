@@ -12,6 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { Icon, InlineIcon } from '@iconify/react';
 import Settings from '@iconify-icons/ic/settings';
+import Fade from 'react-reveal/Fade';
 
 import {Helmet} from "react-helmet";
 
@@ -120,43 +121,45 @@ const Config = ({classes}) =>{
                 <title>Ternium Trainer | Ajustes</title>
             </Helmet>
             <Panel>
-                <div className={classes.contentDiv}>
-                    <div className={classes.mainDiv}>
-                        <div className={classes.header}>
-                            <h1 style={{display: "inline"}}>
-                                <InlineIcon icon={Settings} style={{ fontSize: 50,marginRight:"0.5rem" }} />
-                                Configuración de cuenta
-                            </h1>
-                        </div>
-                        <div className={classes.userInfo}>
-                                <h4> <strong>Username:</strong><br/> {username}</h4>
-                        </div>
-                        <div className={classes.configDiv}>
-                           <div className={classes.loginLog}>
-                                {rows.length > 0 &&
-                                    <TableContainer>
-                                        <Table className={classes.table} aria-label="simple table">
-                                            <TableHead>
-                                            <TableRow>
-                                                <TableCell>Historial de logins semanal</TableCell>
-                                            </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                            {rows.map((row) => (
-                                                <TableRow key={row.user}>
-                                                    <TableCell>{formatedDate(row.timestamp)}</TableCell>
+                <Fade big>
+                    <div className={classes.contentDiv}>
+                        <div className={classes.mainDiv}>
+                            <div className={classes.header}>
+                                <h1 style={{display: "inline"}}>
+                                    <InlineIcon icon={Settings} style={{ fontSize: 50,marginRight:"0.5rem" }} />
+                                    Configuración de cuenta
+                                </h1>
+                            </div>
+                            <div className={classes.userInfo}>
+                                    <h4> <strong>Username:</strong><br/> {username}</h4>
+                            </div>
+                            <div className={classes.configDiv}>
+                            <div className={classes.loginLog}>
+                                    {rows.length > 0 &&
+                                        <TableContainer>
+                                            <Table className={classes.table} aria-label="simple table">
+                                                <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Historial de logins semanal</TableCell>
                                                 </TableRow>
-                                            ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                }
-                           </div>
-                           <br/>
-                           <Button variant="danger" onClick={reload}>Log out</Button>
+                                                </TableHead>
+                                                <TableBody>
+                                                {rows.map((row) => (
+                                                    <TableRow key={row.user}>
+                                                        <TableCell>{formatedDate(row.timestamp)}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    }
+                            </div>
+                            <br/>
+                            <Button variant="danger" onClick={reload}>Log out</Button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Fade>
             </Panel>
         </div>
     );
