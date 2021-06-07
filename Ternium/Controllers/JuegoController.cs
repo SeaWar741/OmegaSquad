@@ -30,7 +30,7 @@ namespace Ternium.Controllers
         {
             try  {
 
-                string Query ="INSERT INTO `juego` (`id`, `user`, `startTime`, `endTime`) VALUES (NULL, '" + user + "','" + startTime + "','" + endTime + "'); SELECT LAST_INSERT() as LastID"; 
+                string Query ="INSERT INTO `juego` (`id`, `user`, `startTime`, `endTime`) VALUES (NULL, '" + user + "','" + startTime + "','" + endTime + "'); SELECT LAST_INSERT_ID() as LastID"; 
 
                 Console.WriteLine(Query);
 
