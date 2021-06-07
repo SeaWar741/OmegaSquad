@@ -21,13 +21,16 @@ namespace Ternium.Controllers
             _logger = logger;
         }
         
+        public int IDLast;
+
+        public IList<Models.LastID> ListaIds { get; set; }
 
         [HttpPost]
         public IEnumerable<Models.Juego> Post(string user, string startTime, string endTime)
         {
             try  {
 
-                string Query ="INSERT INTO `juego` (`id`, `user`, `startTime`, `endTime`) VALUES (NULL, '" + user + "','" + startTime + "','" + endTime + "')"; 
+                string Query ="INSERT INTO `juego` (`id`, `user`, `startTime`, `endTime`) VALUES (NULL, '" + user + "','" + startTime + "','" + endTime + "'); SELECT LAST_INSERT() as LastID"; 
 
                 Console.WriteLine(Query);
 
@@ -38,17 +41,24 @@ namespace Ternium.Controllers
 
                 MyConn2.Open();  
                 
+                Models.LastID id = new Models.LastID();
+                ListaIds = new List<Models.LastID>();
                 MyReader2 = MyCommand2.ExecuteReader();     // Here our query will be executed and data saved into the database.  
-                
                 while (MyReader2.Read())  
                 {                     
+                    id = new Models.LastID();
+                    id.id =  int.Parse(MyReader2["LastID"].ToString());
+
+                    ListaIds.Add(id);
+                    IDLast = id.id;
+
                 }  
                 
                 MyConn2.Close();
                 
                 return Enumerable.Range(1,1).Select(index => new Models.Juego
                 {
-                    user = "Inserted Successfully"
+                    user = IDLast.ToString()
                     
                 }).ToArray();  
                 
