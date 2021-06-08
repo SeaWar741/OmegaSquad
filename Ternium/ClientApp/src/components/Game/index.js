@@ -50,7 +50,11 @@ const Game = ({classes}) =>{
         unityContext.setFullscreen(true);
     }
 
+    
+
     const [isLoaded, setIsLoaded] = useState(false);
+    const [didError, setDidError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const loadGame = () =>{
         unityContext.on("loaded", function () {
@@ -62,6 +66,37 @@ const Game = ({classes}) =>{
         loadGame();
     }, []);
 
+    useEffect(() =>{
+        unityContext.on("error", function (message) {
+          setDidError(true);
+          setErrorMessage(message);
+        });
+    }, []);
+
+    useEffect(function () {
+        unityContext.on("quitted", function () {});
+    }, []);
+    
+    const UnityGame = ({classes}) => {
+        return(
+            <div>
+                <Unity
+                    unityContext={unityContext}
+                    matchWebGLToCanvasSize={true}
+                    style={{
+                            width: "100%",
+                            height: "100%",
+                            background: "black",
+                        }}
+                />
+                <Button onClick={handleOnClickFullscreen} style={{float:"right"}}>
+                    <InlineIcon icon={resizeFourDirections} style={{ fontSize: 50}} />
+                </Button>
+            </div>
+            
+        )
+    }
+    console.log(errorMessage);
     return (
         <div>
             <Helmet>
@@ -77,18 +112,7 @@ const Game = ({classes}) =>{
                             </h1>
                         </div>
                         <Container style={{marginTop:"2rem"}}>
-                            <Unity
-                                unityContext={unityContext}
-                                matchWebGLToCanvasSize={true}
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    background: "black",
-                                }}
-                            />
-                            <Button onClick={handleOnClickFullscreen} style={{float:"right"}}>
-                                <InlineIcon icon={resizeFourDirections} style={{ fontSize: 50}} />
-                            </Button>
+                            {didError===false?<UnityGame/>:<p>Error cargando el juego</p>}
                         </Container>
                     </div>
                 </Fade>
