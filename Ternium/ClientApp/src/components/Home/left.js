@@ -66,23 +66,23 @@ const Left = ({classes}) =>{
         const dataDays = [
             {
                 name:"Lunes",
-                HorasDeJuego:result.data[0].lunes
+                HorasDeJuego:result.data[0].lunes.toFixed(2)
             },
             {
                 name:"Martes",
-                HorasDeJuego:result.data[0].martes
+                HorasDeJuego:result.data[0].martes.toFixed(2)
             },
             {
                 name:"Miercoles",
-                HorasDeJuego:result.data[0].miercoles
+                HorasDeJuego:result.data[0].miercoles.toFixed(2)
             },
             {
                 name:"Jueves",
-                HorasDeJuego:result.data[0].jueves
+                HorasDeJuego:result.data[0].jueves.toFixed(2)
             },
             {
                 name:"Viernes",
-                HorasDeJuego:result.data[0].viernes
+                HorasDeJuego:result.data[0].viernes.toFixed(2)
             }
         ];
 
@@ -95,7 +95,7 @@ const Left = ({classes}) =>{
         fetchData();
     }, []);
 
-    //console.log(horas);
+    console.log(horas);
 
     return (
         <div>

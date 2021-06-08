@@ -12,18 +12,18 @@ namespace Ternium.Models
     }
     public class TiempoDiaSemanaActual
     {
-        public int lunes {get;set;}
+        public float lunes {get;set;}
 
-        public int martes {get;set;}
+        public float martes {get;set;}
 
-        public int miercoles {get;set;}
+        public float miercoles {get;set;}
 
-        public int jueves {get;set;}
+        public float jueves {get;set;}
 
-        public int viernes {get;set;}
+        public float viernes {get;set;}
 
-        public int sabado {get;set;}
+        public float sabado {get;set;}
 
-        public int domingo {get;set;}
+        public float domingo {get;set;}
     }
 }

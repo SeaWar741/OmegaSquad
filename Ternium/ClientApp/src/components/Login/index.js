@@ -51,7 +51,12 @@ const useStyles = makeStyles((theme) =>({
         boxShadow: "0px 24px 48px 0 rgba(0,0,0,0.16)"
     },
     content:{
-        padding:"5rem"
+        [theme.breakpoints.up('md')]:{
+            padding:"8rem",
+        },
+        [theme.breakpoints.down('md')]:{
+            padding:"5rem",
+        },
     },
     logoTernium:{
         [theme.breakpoints.up('md')]:{

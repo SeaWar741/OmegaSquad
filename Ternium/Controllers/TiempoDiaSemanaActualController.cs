@@ -42,13 +42,13 @@ namespace Ternium.Controllers
                     while (reader.Read())
                     {
                         usr1 = new Models.TiempoDiaSemanaActual();
-                        usr1.lunes = int.Parse(reader["lunes"].ToString())/60;
-                        usr1.martes = int.Parse(reader["martes"].ToString())/60;
-                        usr1.miercoles = int.Parse(reader["miercoles"].ToString())/60;
-                        usr1.jueves = int.Parse(reader["jueves"].ToString())/60;
-                        usr1.viernes = int.Parse(reader["viernes"].ToString())/60;
-                        usr1.sabado = int.Parse(reader["sabado"].ToString())/60;
-                        usr1.domingo = int.Parse(reader["domingo"].ToString())/60;
+                        usr1.lunes = float.Parse(reader["lunes"].ToString())/60;
+                        usr1.martes = float.Parse(reader["martes"].ToString())/60;
+                        usr1.miercoles = float.Parse(reader["miercoles"].ToString())/60;
+                        usr1.jueves = float.Parse(reader["jueves"].ToString())/60;
+                        usr1.viernes = float.Parse(reader["viernes"].ToString())/60;
+                        usr1.sabado = float.Parse(reader["sabado"].ToString())/60;
+                        usr1.domingo = float.Parse(reader["domingo"].ToString())/60;
 
                         ListaUsuarios.Add(usr1);
                     }

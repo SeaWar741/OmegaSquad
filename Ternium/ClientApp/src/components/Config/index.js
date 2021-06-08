@@ -113,7 +113,7 @@ const Config = ({classes}) =>{
         return fechaFinal;
     }
 
-    //console.log(rows)
+    console.log(rows)
     
     return (
         <div>
