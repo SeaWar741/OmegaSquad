@@ -15,6 +15,9 @@ import Panel from "../Panel";
 
 import Unity, { UnityContext } from "react-unity-webgl";
 
+//Redux
+import { useSelector } from 'react-redux';
+
 const useStyles = makeStyles((theme) =>({
     contentDiv:{
         marginLeft:"1rem",
@@ -32,6 +35,20 @@ const useStyles = makeStyles((theme) =>({
     header:{
         display:"inline-block"
     },
+    gameOverlay:{
+        position: "fixed", /* Sit on top of the page content */
+        //display: "none", /* Hidden by default */
+        width: "100%", /* Full width (cover the whole page) */
+        height: "100%", /* Full height (cover the whole page) */
+        top: "0",
+        left: "0",
+        right: "0",
+        bottom: "0",
+        //backgroundColor:"red",
+        zIndex: "20000000", /* Specify a stack order in case you're using a different order for other elements */
+        pointerEvents: "auto",
+        cursor: "pointer" /* Add a pointer on hover */
+    }
 }))
 
 
@@ -46,15 +63,16 @@ const unityContext = new UnityContext({
 const Game = ({classes}) =>{
     classes = useStyles();
 
-    function handleOnClickFullscreen() {
-        unityContext.setFullscreen(true);
-    }
-
     
-
+    const username = useSelector(state => state.usernameState.username);
     const [isLoaded, setIsLoaded] = useState(false);
     const [didError, setDidError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+
+    function setUsernameGame() {
+        unityContext.send("Data Publisher", "SetUsername", username);
+        console.log("setting username");
+    }
 
     const loadGame = () =>{
         unityContext.on("loaded", function () {
@@ -62,22 +80,12 @@ const Game = ({classes}) =>{
         });
     }
 
-    useEffect(() =>{
-        loadGame();
-    }, []);
+    function handleOnClickFullscreen() {
+        unityContext.setFullscreen(true);
+        setUsernameGame()
+    }
 
-    useEffect(() =>{
-        unityContext.on("error", function (message) {
-          setDidError(true);
-          setErrorMessage(message);
-        });
-    }, []);
-
-    useEffect(function () {
-        unityContext.on("quitted", function () {});
-    }, []);
-    
-    const UnityGame = ({classes}) => {
+    const UnityGame = () => {
         return(
             <div>
                 <Unity
@@ -96,7 +104,22 @@ const Game = ({classes}) =>{
             
         )
     }
-    console.log(errorMessage);
+
+    useEffect(() =>{
+        unityContext.on("error", function (message) {
+          setDidError(true);
+          setErrorMessage(message);
+        });
+
+        unityContext.on("quitted", function () {
+            setDidError(true);
+            console.log("BYE");
+        });
+
+    }, []);
+
+
+
     return (
         <div>
             <Helmet>
@@ -111,7 +134,7 @@ const Game = ({classes}) =>{
                                 Modo Práctica
                             </h1>
                         </div>
-                        <Container style={{marginTop:"2rem"}}>
+                        <Container style={{marginTop:"2rem"}} onClick={setUsernameGame}>
                             {didError===false?<UnityGame/>:<p>Error cargando el juego</p>}
                         </Container>
                     </div>
