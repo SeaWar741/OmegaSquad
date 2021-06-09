@@ -53,10 +53,10 @@ const useStyles = makeStyles((theme) =>({
 
 
 const unityContext = new UnityContext({
-    loaderUrl: "build/juego.loader.js",
-    dataUrl: "build/juego.data",
-    frameworkUrl: "build/juego.framework.js",
-    codeUrl: "build/juego.wasm",
+    loaderUrl: "./Game/juego.loader.js",
+    dataUrl: "./Game/juego.data",
+    frameworkUrl: "./Game/juego.framework.js",
+    codeUrl: "./Game/juego.wasm",
 });
 
 
