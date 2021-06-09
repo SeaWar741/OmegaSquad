@@ -1,0 +1,25 @@
+.MuiPaper-root{
+}
+.MuiDrawer-paperAnchorDockedLeft {
+    border-right: none !important;
+    background-color: transparent  !important;
+}
+.outer {
+    align-items: center;
+    border: 1px solid #ccc;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    max-width: 100%;
+    overflow: auto;
+    padding: 50px;
+    resize:both;
+  }
+  
+  svg {
+    height: 100%;
+  }
+  
+  circle {
+    fill: #3DB8A4;
+  }

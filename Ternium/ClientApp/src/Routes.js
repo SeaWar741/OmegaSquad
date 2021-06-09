@@ -11,7 +11,7 @@ import Examen from './components/Examen';
 import Stats from './components/Stats';
 import Leaderboard from './components/Leaderboard';
 import Config from './components/Config';
-
+import ErrorPage from './components/Error';
 
 //Redux
 import { useSelector } from 'react-redux';
@@ -57,7 +57,7 @@ const Routes = () => {
             <ProtectedRoute loggedIn={username} path='/leaderboard' component={Leaderboard} />
             <ProtectedRoute loggedIn={username} path='/stats' component={Stats}/>
             <ProtectedRoute loggedIn={username} path='/settings' component={Config}/>
-
+            <Route component={ErrorPage} />
           </Switch>
       </BrowserRouter> 
     );

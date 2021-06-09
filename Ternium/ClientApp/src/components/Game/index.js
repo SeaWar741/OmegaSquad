@@ -11,7 +11,7 @@ import Fade from 'react-reveal/Fade';
 
 import {Helmet} from "react-helmet";
 
-import Panel from "../Panel";
+import Panel from "../PanelGame";
 
 import Unity, { UnityContext } from "react-unity-webgl";
 
@@ -53,10 +53,10 @@ const useStyles = makeStyles((theme) =>({
 
 
 const unityContext = new UnityContext({
-    loaderUrl: "build/test.loader.js",
-    dataUrl: "build/test.data",
-    frameworkUrl: "build/test.framework.js",
-    codeUrl: "build/test.wasm",
+    loaderUrl: "build/juego.loader.js",
+    dataUrl: "build/juego.data",
+    frameworkUrl: "build/juego.framework.js",
+    codeUrl: "build/juego.wasm",
 });
 
 

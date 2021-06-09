@@ -7,7 +7,7 @@ namespace Ternium.Models
 {
     public class RankingPractica
     {
-        public int ranking {get;set;}
+        public string ranking {get;set;}
         public string user { get; set; }   
         public string tipo { get; set; }
         public string categoria { get; set; }

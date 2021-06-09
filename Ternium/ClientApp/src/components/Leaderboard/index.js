@@ -188,7 +188,19 @@ const Leaderboard = ({classes}) =>{
         examenesApi.forEach(function(item,index) {
             console.log(item)
             console.log(index)
-            ex.push(createExamenData(index+1, item.username, item.score))
+            if(index == 0){
+                ex.push(createExamenData("🥇", item.username, item.score))
+            }
+            if(index == 1){
+                ex.push(createExamenData("🥈", item.username, item.score))
+            }
+            if(index == 2){
+                ex.push(createExamenData("🥉", item.username, item.score))
+            }
+            if(index >2){
+                ex.push(createExamenData(index+1, item.username, item.score))
+            }
+            
         });
         setExamenes(ex);
   

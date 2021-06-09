@@ -42,7 +42,18 @@ namespace Ternium.Controllers
                     while (reader.Read())
                     {
                         usr1 = new Models.RankingPractica();
-                        usr1.ranking = rank;
+                        if(rank == 1){
+                            usr1.ranking = "🥇";
+                        }
+                        if(rank == 2){
+                            usr1.ranking = "🥈";
+                        }
+                        if(rank == 3){
+                            usr1.ranking = "🥉";
+                        }
+                        if(rank >3){
+                            usr1.ranking = rank.ToString();
+                        }
                         usr1.user = reader["user"].ToString();
                         usr1.tipo = reader["tipo"].ToString();
                         usr1.categoria = reader["Categoria"].ToString();
