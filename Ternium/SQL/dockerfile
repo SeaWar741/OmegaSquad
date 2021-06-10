@@ -1,0 +1,9 @@
+FROM mysql/mysql-server:5.7
+
+ENV MYSQL_ALLOW_EMPTY_PASSWORD=true
+ENV MYSQL_USER=root
+ENV MYSQL_PASSWORD=
+ENV MYSQL_DATABASE=ternium
+
+
+COPY ./ternium.sql .

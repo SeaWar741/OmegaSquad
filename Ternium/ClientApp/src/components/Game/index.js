@@ -53,10 +53,10 @@ const useStyles = makeStyles((theme) =>({
 
 
 const unityContext = new UnityContext({
-    loaderUrl: "./Game/juego.loader.js",
-    dataUrl: "./Game/juego.data",
-    frameworkUrl: "./Game/juego.framework.js",
-    codeUrl: "./Game/juego.wasm",
+    loaderUrl: "https://firebasestorage.googleapis.com/v0/b/newagent-7ceb9.appspot.com/o/Ternium%2Fjuego.loader.js?alt=media&token=647a6468-e23a-4603-b573-32ffd028657a",
+    dataUrl: "https://firebasestorage.googleapis.com/v0/b/newagent-7ceb9.appspot.com/o/Ternium%2Fjuego.data?alt=media&token=d16305a6-24d9-4d31-9834-ebae508c9b85",
+    frameworkUrl: "https://firebasestorage.googleapis.com/v0/b/newagent-7ceb9.appspot.com/o/Ternium%2Fjuego.framework.js?alt=media&token=9f61e408-303e-4b56-af93-487da7087b3b",
+    codeUrl: "https://firebasestorage.googleapis.com/v0/b/newagent-7ceb9.appspot.com/o/Ternium%2Fjuego.wasm?alt=media&token=29a27148-60f2-4e31-9ed5-386657e5efb9",
 });
 
 

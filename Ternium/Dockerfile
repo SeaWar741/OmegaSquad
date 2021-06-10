@@ -1,22 +1,24 @@
-# Dockerfile
+# https://hub.docker.com/_/microsoft-dotnet
+FROM mcr.microsoft.com/dotnet/sdk:5.0.201 AS build
+WORKDIR /build
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
-WORKDIR /app
+RUN curl -sL https://deb.nodesource.com/setup_10.x |  bash -
+RUN apt-get install -y nodejs
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
+# copy csproj and restore as distinct layers
+COPY ./*.csproj .
 RUN dotnet restore
 
-# Copy everything else and build
+# copy everything else and build app
 COPY . .
-RUN dotnet publish -c Release -o out
+WORKDIR /build
+RUN dotnet publish -c release -o published --no-cache
 
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/sdk:5.0
+# final stage/image
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=build /build/published ./
+ENTRYPOINT ["dotnet", "Ternium.dll"]
 
-# Run the app on container startup
-# Use your project name for the second parameter
-# e.g. MyProject.dll
-ENTRYPOINT [ "dotnet", "HerokuApp.dll" ]
+EXPOSE 5001
+EXPOSE 5000
